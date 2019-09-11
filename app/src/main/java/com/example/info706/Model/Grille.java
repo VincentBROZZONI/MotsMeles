@@ -8,19 +8,24 @@ public class Grille {
     private String[][] grilleMots;
     private ArrayList<Mot> listeMots;
 
-    public Grille(ArrayList<Mot> listeMots){
-        this.listeMots = listeMots;
+    public Grille(){
+        this.listeMots = new ArrayList<>();
         this.inititialiseGrille();
 
     }
 
     public void inititialiseGrille (){
+        this.grilleMots = new String[TAILLE_DEFAUT][TAILLE_DEFAUT];
         int i,j;
         for (i = 0 ; i < TAILLE_DEFAUT ; i++){
             for(j = 0 ; j < TAILLE_DEFAUT; j++){
-                this.grilleMots[i][j] = "!";
+                this.grilleMots[i][j] = "B";
             }
         }
+    }
+
+    public static int getTailleDefaut() {
+        return TAILLE_DEFAUT;
     }
 
     public String[][] getGrilleMots() {
