@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private CanvasGrille canvasGrille;
     private Grille grille;
     private String[] mots = new String[]{
-            "Canvas", "String", "Attributs", "Méthode", "Parametres", "Objet",
-            "Json", "Entree"};
+            "CANVAS", "STRING", "ATTRIBUTS", "METHODE", "PARAMETRES", "OBJET",
+            "JSON", "ENTREE","JAVA","ADA","ECLIPSE","ANDROID"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,30 +33,14 @@ public class MainActivity extends AppCompatActivity {
         this.listView = (ListView) findViewById(R.id.listViewMot);
         this.frameLayout = (FrameLayout) findViewById(R.id.frameGrilleMot);
 
-        this.grille = new Grille();
+        this.grille = new Grille(mots);
 
         this.canvasGrille = new CanvasGrille(this , this.grille);
         this.frameLayout.addView(this.canvasGrille);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_list_item_1, mots);
+                android.R.layout.simple_list_item_1,mots);
         listView.setAdapter(adapter);
     }
 
-    /*public Mot StringVersMot (String string){
-
-        Mot mot = new Mot(string,string.length(), Direction.HORIZONTAL, Sens.DROIT);
-
-        return mot;
-    }
-
-    public ArrayList<Mot> StringVersArray (){
-
-        ArrayList<Mot> listeMots = new ArrayList<>();
-        for (int i = 0 ; i < 8; i++){
-            listeMots.add(StringVersMot(this.mots[i]));
-        }
-
-        return listeMots;
-    }*/
 }
