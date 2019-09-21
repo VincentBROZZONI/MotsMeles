@@ -4,6 +4,8 @@ package com.example.info706.View;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -40,6 +42,30 @@ public class MainActivity extends AppCompatActivity {
         this.listView = (ListView) findViewById(R.id.listViewMot);
         this.frameLayout = (FrameLayout) findViewById(R.id.frameGrilleMot);
 
+        this.nouvellePartie();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //ajoute les entrées de menu_test à l'ActionBar
+        getMenuInflater().inflate(R.menu.menu_jeu, menu);
+        return true;
+    }
+
+    //gère le click sur une action de l'ActionBar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_reset:
+                    nouvellePartie();
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void nouvellePartie(){
         this.grille = new Grille(mots);
 
         this.canvasGrille = new CanvasGrille(this , this.grille);
@@ -48,5 +74,4 @@ public class MainActivity extends AppCompatActivity {
         final ArrayMotAdapter motArrayAdapter = new ArrayMotAdapter(this,this.grille.getListeMotsFinale());
         listView.setAdapter(motArrayAdapter);
     }
-
 }

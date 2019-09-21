@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MOTS MÊLÉS</string>
+    <string name="reset_jeu">Nouvelle grille</string>
 </resources>
