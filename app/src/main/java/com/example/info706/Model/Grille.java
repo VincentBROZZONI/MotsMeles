@@ -37,36 +37,29 @@ public class Grille {
 
     public void genererGrille(){
         this.listeMotsFinale = new ArrayList<>();
+        int i = 0;
 
-        while(this.listeMotsFinale.size()< NOMBRE_MOTS_PARTIE){
-
-            for (int i = 0; i< this.listeMots.size(); i++){
+        while(this.listeMotsFinale.size()< NOMBRE_MOTS_PARTIE && i< this.listeMots.size()){
 
                 Mot motAPlacer = this.listeMots.get(i);
 
                 switch(motAPlacer.getDirectionMot()){
                     case HORIZONTAL:
-
-                        if (motAPlacer.getSensMot()== Sens.DROIT) {
-                            tentativePlacerMotHorizontalDroit(motAPlacer);
-                        }else if(motAPlacer.getSensMot()== Sens.INVERSE){
-                            tentativePlacerMotHorizontalInverse(motAPlacer);
-                        }
-
+                        tentativePlacerMotHorizontal(motAPlacer);
                         break;
                     case VERTICAL:
-
-                        if (motAPlacer.getSensMot()== Sens.DROIT) {
-                            tentativePlacerMotVerticalDroit(motAPlacer);
-                        }else if(motAPlacer.getSensMot()== Sens.INVERSE){
-                            tentativePlacerMotVerticalInverse(motAPlacer);
-                        }
-
+                        tentativePlacerMotVertical(motAPlacer);
+                        break;
+                    case DIAGONAL_BAS:
+                        tentativePlacerMotDiagonalBas(motAPlacer);
+                        break;
+                    case DIAGONAL_HAUT:
+                        tentativePlacerMotDiagonalHaut(motAPlacer);
                         break;
                     default:
                         break;
                 }
-            }
+                i++;
         }
         remplirCasesRestantes();
     }
@@ -76,85 +69,111 @@ public class Grille {
     //*********************************************************************************************
     //Methodes tentant de placer les mots dans la grille
 
-    private void tentativePlacerMotHorizontalDroit(Mot motAPlacer) {
+    private void tentativePlacerMotHorizontal(Mot motAPlacer) {
         int colonneDebutMot,ligneMot,timeOut;
 
+        if (motAPlacer.getSensMot() == Sens.INVERSE){
+            inverseMot(motAPlacer);
+        }
         colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
         ligneMot = new Random().nextInt(TAILLE_DEFAUT);
         timeOut = 0;
 
-        while (!positionValideHorizontalDroit(motAPlacer, colonneDebutMot, ligneMot) && timeOut < 10) {
+        while (!positionValideHorizontal(motAPlacer, colonneDebutMot, ligneMot) && timeOut < 10) {
             colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
             ligneMot = new Random().nextInt(TAILLE_DEFAUT);
             timeOut++;
         }
         if (timeOut < 10) {
-            placerMotHorizontalDroit(motAPlacer, colonneDebutMot, ligneMot);
+            placerMotHorizontal(motAPlacer, colonneDebutMot, ligneMot);
+            if (motAPlacer.getSensMot() == Sens.INVERSE){
+                inverseMot(motAPlacer);
+            }
             this.listeMotsFinale.add(motAPlacer);
         }
     }
 
-    private void tentativePlacerMotHorizontalInverse(Mot motAPlacer) {
-        int colonneDebutMot,ligneMot,timeOut;
+    private void tentativePlacerMotVertical(Mot motAPlacer) {
 
-        colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot()) + motAPlacer.getLongueurMot();
-        ligneMot = new Random().nextInt(TAILLE_DEFAUT);
-        timeOut = 0;
+        int ligneDebutMot, colonneMot, timeOut;
 
-        while (!positionValideHorizontalInverse(motAPlacer, colonneDebutMot, ligneMot) && timeOut < 10) {
-            colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot()) + motAPlacer.getLongueurMot();
-            ligneMot = new Random().nextInt(TAILLE_DEFAUT);
-            timeOut++;
+        if (motAPlacer.getSensMot() == Sens.INVERSE) {
+            inverseMot(motAPlacer);
         }
-        if (timeOut < 10) {
-            placerMotHorizontalInverse(motAPlacer, colonneDebutMot, ligneMot);
-            this.listeMotsFinale.add(motAPlacer);
-        }
-    }
-
-
-    private void tentativePlacerMotVerticalDroit(Mot motAPlacer) {
-
-        int ligneDebutMot,colonneMot,timeOut;
 
         ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
         colonneMot = new Random().nextInt(TAILLE_DEFAUT);
         timeOut = 0;
-        while(!positionValideVerticalDroit(motAPlacer,colonneMot,ligneDebutMot) && timeOut < 10){
+        while (!positionValideVertical(motAPlacer, colonneMot, ligneDebutMot) && timeOut < 10) {
             ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
             colonneMot = new Random().nextInt(TAILLE_DEFAUT);
             timeOut++;
         }
-        if(timeOut < 10) {
-            placerMotVerticalDroit(motAPlacer, colonneMot, ligneDebutMot);
+        if (timeOut < 10) {
+            placerMotVertical(motAPlacer, colonneMot, ligneDebutMot);
+            if (motAPlacer.getSensMot() == Sens.INVERSE) {
+                inverseMot(motAPlacer);
+            }
             this.listeMotsFinale.add(motAPlacer);
         }
     }
 
-    private void tentativePlacerMotVerticalInverse(Mot motAPlacer) {
-        int ligneDebutMot,colonneMot,timeOut;
 
-        ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() )+motAPlacer.getLongueurMot();
-        colonneMot = new Random().nextInt(TAILLE_DEFAUT);
+    private void tentativePlacerMotDiagonalBas(Mot motAPlacer) {
+        int ligneDebutMot,colonneDebutMot,timeOut;
+
+        if (motAPlacer.getSensMot() == Sens.INVERSE){
+            inverseMot(motAPlacer);
+        }
+        colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1 );
+        ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1);
         timeOut = 0;
-        while(!positionValideVerticalInverse(motAPlacer,colonneMot,ligneDebutMot) && timeOut < 10){
-            ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() )+ motAPlacer.getLongueurMot();
-            colonneMot = new Random().nextInt(TAILLE_DEFAUT);
+
+        while(!positionValideDiagonalBas(motAPlacer,colonneDebutMot,ligneDebutMot) && timeOut < 10){
+            ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
+            colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1);
             timeOut++;
         }
         if(timeOut < 10) {
-            placerMotVerticalInverse(motAPlacer, colonneMot, ligneDebutMot);
+            placerMotDiagonalBas(motAPlacer, colonneDebutMot, ligneDebutMot);
+            if (motAPlacer.getSensMot() == Sens.INVERSE){
+                inverseMot(motAPlacer);
+            }
             this.listeMotsFinale.add(motAPlacer);
         }
     }
 
+
+    private void tentativePlacerMotDiagonalHaut(Mot motAPlacer) {
+        int ligneDebutMot,colonneDebutMot,timeOut;
+
+        if (motAPlacer.getSensMot() == Sens.INVERSE){
+            inverseMot(motAPlacer);
+        }
+        colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1 );
+        ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1) + motAPlacer.getLongueurMot()-1 ;
+        timeOut = 0;
+
+        while(!positionValideDiagonalHaut(motAPlacer,colonneDebutMot,ligneDebutMot) && timeOut < 10){
+            ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1) + motAPlacer.getLongueurMot()-1;
+            colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1);
+            timeOut++;
+        }
+        if(timeOut < 10) {
+            placerMotDiagonalHaut(motAPlacer, colonneDebutMot, ligneDebutMot);
+            if (motAPlacer.getSensMot() == Sens.INVERSE){
+                inverseMot(motAPlacer);
+            }
+            this.listeMotsFinale.add(motAPlacer);
+        }
+    }
 
 
     //************************************************************************
     //************************************************************************
     //Methodes testant la validite de la position des mots que l'on veut placer
 
-    private boolean positionValideHorizontalDroit(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
+    private boolean positionValideHorizontal(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
         boolean placeLibre = true;
         int i = 0;
         int x = colonneDebutMot;
@@ -169,22 +188,7 @@ public class Grille {
         return placeLibre;
     }
 
-    private boolean positionValideHorizontalInverse(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
-        boolean placeLibre = true;
-        int i = 0;
-        int x = colonneDebutMot;
-        while (i < motAPlacer.getLongueurMot() && placeLibre){
-            String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
-            if (!this.grilleCaracteres[x][ligneMot].equals(CARACTERE_DEFAUT) && !lettre.equals(this.grilleCaracteres[x][ligneMot])){
-                placeLibre = false;
-            }
-            i++;
-            x--;
-        }
-        return placeLibre;
-    }
-
-    private boolean positionValideVerticalDroit(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
+    private boolean positionValideVertical(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
         boolean placeLibre = true;
         int i = 0;
         int y = ligneDebutMot;
@@ -200,27 +204,46 @@ public class Grille {
         return placeLibre;
     }
 
-    private boolean positionValideVerticalInverse(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
+    private boolean positionValideDiagonalBas(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
         boolean placeLibre = true;
         int i = 0;
+        int x = colonneDebutMot;
         int y = ligneDebutMot;
         while (i < motAPlacer.getLongueurMot() && placeLibre){
             String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
-            if (!this.grilleCaracteres[colonneMot][y].equals(CARACTERE_DEFAUT) && !lettre.equals(this.grilleCaracteres[colonneMot][y])){
+            if (!this.grilleCaracteres[x][y].equals(CARACTERE_DEFAUT) && !lettre.equals(this.grilleCaracteres[x][y])){
                 placeLibre = false;
             }
             i++;
-            y--;
+            x++;
+            y++;
         }
-
         return placeLibre;
     }
+
+    private boolean positionValideDiagonalHaut(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
+        boolean placeLibre = true;
+        int i = 0;
+        int x = colonneDebutMot;
+        int y = ligneDebutMot;
+        while (i < motAPlacer.getLongueurMot() && placeLibre){
+            String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
+            if (!this.grilleCaracteres[x][y].equals(CARACTERE_DEFAUT) && !lettre.equals(this.grilleCaracteres[x][y])){
+                placeLibre = false;
+            }
+            i++;
+            x++;
+            y--;
+        }
+        return placeLibre;
+    }
+
     //*************************************************************************************
     //*************************************************************************************
     //Methodes de placement des mots dans la grille
 
 
-    private void placerMotHorizontalDroit(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
+    private void placerMotHorizontal(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
         int x = colonneDebutMot;
         for (int i = 0 ; i < motAPlacer.getLongueurMot() ; i++){
             String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
@@ -230,16 +253,7 @@ public class Grille {
         }
     }
 
-    private void placerMotHorizontalInverse(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
-        int x = colonneDebutMot;
-        for (int i = 0 ; i < motAPlacer.getLongueurMot() ; i++){
-            String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
-            this.grilleCaracteres[x][ligneMot] = lettre;
-            x--;
-        }
-    }
-
-    private void placerMotVerticalDroit(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
+    private void placerMotVertical(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
         int y = ligneDebutMot;
         for (int i = 0 ; i < motAPlacer.getLongueurMot() ; i++){
             String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
@@ -248,15 +262,27 @@ public class Grille {
         }
     }
 
-    private void placerMotVerticalInverse(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
+    private void placerMotDiagonalBas(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
+        int x = colonneDebutMot;
         int y = ligneDebutMot;
         for (int i = 0 ; i < motAPlacer.getLongueurMot() ; i++){
             String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
-            this.grilleCaracteres[colonneMot][y] = lettre;
-            y--;
+            this.grilleCaracteres[x][y] = lettre;
+            x++;
+            y++;
         }
     }
 
+    private void placerMotDiagonalHaut(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
+        int x = colonneDebutMot;
+        int y = ligneDebutMot;
+        for (int i = 0 ; i < motAPlacer.getLongueurMot() ; i++){
+            String lettre = String.valueOf(motAPlacer.getChaineMot().charAt(i));
+            this.grilleCaracteres[x][y] = lettre;
+            x++;
+            y--;
+        }
+    }
 
     //***************************************************************************************
     //***************************************************************************************
@@ -266,7 +292,7 @@ public class Grille {
         for(int i = 0 ; i < TAILLE_DEFAUT ; i++){
             for(int j = 0 ; j< TAILLE_DEFAUT ; j++){
                 if(this.grilleCaracteres[i][j].equals(CARACTERE_DEFAUT)){
-                    char c = (char) (new Random().nextInt(26) + 'a');
+                    char c = (char) (new Random().nextInt(26) + 'A');
                     this.grilleCaracteres[i][j] = String.valueOf(c);
                 }
             }
@@ -274,6 +300,13 @@ public class Grille {
     }
 
 
+    public void inverseMot(Mot mot){
+        StringBuilder inverse = new StringBuilder();
+        inverse.append(mot.getChaineMot());
+        inverse.reverse();
+        mot.setChaineMot(inverse.toString());
+
+    }
     public static int getTailleDefaut() {
         return TAILLE_DEFAUT;
     }

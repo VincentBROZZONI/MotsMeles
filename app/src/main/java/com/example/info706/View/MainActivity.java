@@ -7,13 +7,12 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.example.info706.Controller.ArrayMotAdapter;
 import com.example.info706.Model.Direction;
 import com.example.info706.Model.Grille;
 import com.example.info706.Model.Mot;
-import com.example.info706.Model.Sens;
 import com.example.info706.R;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private Grille grille;
     private String[] mots = new String[]{
             "CANVAS", "STRING", "ATTRIBUTS", "METHODE", "PARAMETRES", "OBJET",
-            "JSON", "ENTREE","JAVA","ADA","ECLIPSE","ANDROID"};
+            "JSON", "ENTREE","JAVA","ADA","ECLIPSE","ANDROID","CLASSE","GETTER",
+            "SETTER", "ACTIVITE","GRILLE","FRAME","LAYOUT"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
         this.canvasGrille = new CanvasGrille(this , this.grille);
         this.frameLayout.addView(this.canvasGrille);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_list_item_1,mots);
-        listView.setAdapter(adapter);
+        final ArrayMotAdapter motArrayAdapter = new ArrayMotAdapter(this,this.grille.getListeMotsFinale());
+        listView.setAdapter(motArrayAdapter);
     }
 
 }
