@@ -23,7 +23,7 @@ public class CanvasGrille extends View {
     @Override
     public void onDraw (Canvas canvas){
             super.onDraw(canvas);
-            this.paint.setColor(Color.BLACK);
+            this.paint.setColor(Color.WHITE);
             this.paint.setTextSize(60);
             int departX = 200;
             int departY = 120;
