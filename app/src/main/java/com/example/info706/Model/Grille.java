@@ -1,6 +1,8 @@
 package com.example.info706.Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 
 public class Grille {
@@ -13,13 +15,16 @@ public class Grille {
     private ArrayList<Mot> listeMotsFinale;
 
 
-    public Grille(String[] mots){
+    public Grille(Map<String,String> dico){
 
         this.listeMots = new ArrayList<>();
-        for (int i = 0 ; i < mots.length ; i++){
-            Mot temp = new Mot(mots[i],mots[i].length(),Direction.randomDirection(), Sens.randomSens());
+        Iterator it = dico.keySet().iterator();
+        while(it.hasNext()) {
+            Object cle = it.next();
+            Mot temp = new Mot(cle.toString(), cle.toString().length(), Direction.randomDirection(), Sens.randomSens(), dico.get(cle));
             this.listeMots.add(temp);
         }
+
         this.inititialiseGrille();
         this.genererGrille();
     }
