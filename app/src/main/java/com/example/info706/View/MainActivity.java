@@ -116,4 +116,5 @@ public class MainActivity extends AppCompatActivity {
         final ArrayMotAdapter motArrayAdapter = new ArrayMotAdapter(this,this.grille.getListeMotsFinale());
         listView.setAdapter(motArrayAdapter);
     }
+
 }
