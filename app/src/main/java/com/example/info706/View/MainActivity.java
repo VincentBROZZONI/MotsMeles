@@ -7,13 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import com.example.info706.Model.Direction;
 import com.example.info706.Model.Grille;
-import com.example.info706.Model.Mot;
-import com.example.info706.Model.Sens;
 import com.example.info706.R;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 

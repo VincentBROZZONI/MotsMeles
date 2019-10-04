@@ -7,7 +7,7 @@ public class Grille {
 
     private static final int TAILLE_DEFAUT = 10 ;
     private static final String CARACTERE_DEFAUT = " ";
-    private static final int NOMBRE_MOTS_PARTIE = 12 ;
+    private static final int NOMBRE_MOTS_PARTIE = 3;
     private String[][] grilleCaracteres;
     private ArrayList<Mot> listeMots;
     private ArrayList<Mot> listeMotsFinale;
@@ -37,10 +37,9 @@ public class Grille {
 
     public void genererGrille(){
         this.listeMotsFinale = new ArrayList<>();
+        int i = 0;
 
-        while(this.listeMotsFinale.size()< NOMBRE_MOTS_PARTIE){
-
-            for (int i = 0; i< this.listeMots.size(); i++){
+        while(this.listeMotsFinale.size()< NOMBRE_MOTS_PARTIE && i< this.listeMots.size()){
 
                 Mot motAPlacer = this.listeMots.get(i);
 
@@ -66,7 +65,6 @@ public class Grille {
                     default:
                         break;
                 }
-            }
         }
         remplirCasesRestantes();
     }
