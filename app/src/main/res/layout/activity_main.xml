@@ -9,14 +9,17 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/barre_outils_menu"
         android:layout_width="match_parent"
+        android:background="@color/colorToolBar"
         android:layout_height="64dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:elevation="4dp"
+        tools:ignore="MissingConstraints"
+        app:popupTheme="@style/AppTheme">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            app:srcCompat="@mipmap/ic_launcher_round"
-            tools:layout_editor_absoluteX="16dp" />
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="64dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -3,11 +3,11 @@ package com.example.info706.View;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.graphics.Paint;
 import android.view.View;
 
 import com.example.info706.Model.Grille;
+import com.example.info706.R;
 
 
 public class CanvasGrille extends View {
@@ -24,7 +24,7 @@ public class CanvasGrille extends View {
     @Override
     public void onDraw (Canvas canvas){
             super.onDraw(canvas);
-            canvas.drawColor(Color.rgb(48,48,48));
+            canvas.drawColor(getResources().getColor(R.color.colorBackground));
             this.paint.setColor(Color.WHITE);
             this.paint.setTextSize(60);
             int departX = 250;
