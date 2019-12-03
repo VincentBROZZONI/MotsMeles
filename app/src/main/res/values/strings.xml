@@ -8,5 +8,5 @@
                                     Etes-vous sûr?</string>
     <string name="demarrer"> C\'est parti !</string>
     <string name="annuler"> Annuler</string>
-    <string name="bienvenue">Bienvenue sur l\'application\nde mots mêlés!\nEtes-vous prêt ?</string>
+    <string name="bienvenue">Bienvenue sur l\'application\nde mots mêlés!\n\nEtes-vous prêt ?</string>
 </resources>

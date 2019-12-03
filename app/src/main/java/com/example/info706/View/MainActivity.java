@@ -1,6 +1,4 @@
 package com.example.info706.View;
-
-
 import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +28,6 @@ import com.example.info706.R;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
@@ -38,17 +36,24 @@ public class MainActivity extends AppCompatActivity {
     private Grille grille;
     private Map<String,String> dico;
     private Chronometer chrono ;
+    private ImageView imagePause;
     private long pause;
     private Button demarrer;
     private Button annuler;
     private String[] mots = new String[]{
-            "CANVAS", "STRING", "ATTRIBUTS", "METHODE", /*"PARAMETRES", "OBJET",
-            "JSON", "ENTREE","JAVA","ADA","ECLIPSE","ANDROID","CLASSE","GETTER",
-            "SETTER", "ACTIVITE","GRILLE","FRAME","LAYOUT"*/};
-    private String[] def = new String[]{"Canevas permettant de dessiner dans un layout",
-            "Type chaîne de caractère",
+            "CANVAS", "STRING", "ATTRIBUTS", "METHODE", "PARAMETRES", "OBJET",
+            "JSON","JAVA","ADA","ECLIPSE","ANDROID","CLASSE","GETTER",
+            "SETTER", "ACTIVITE","GRILLE","FRAME","LAYOUT"};
+    private String[] def = new String[]{
+            "Canevas permettant de dessiner dans un layout",
+            "Classe gérant les chaînes de caractère",
             "Paramêtres d'une classe JAVA",
-            "Fonction d'une classe JAVA"};
+            "Fonction d'une classe JAVA",
+            "Objets donnés à une méthode",
+            "Instance d'une classe",
+            "Format de données textuelles dérivé de la notation des objets du langage JavaScript",
+            "Défini à l'origine comme un langage de programmation, Java a évolué pour devenir un ensemble cohérent d'éléments techniques et non techniques",
+            "Ada est un langage de programmation orienté objet dont les premières versions remontent au début des années 1980"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
         this.listView = (ListView) findViewById(R.id.listViewMot);
         this.frameLayout = (FrameLayout) findViewById(R.id.frameGrilleMot);
         this.chrono = (Chronometer) findViewById(R.id.chronometer);
+        this.imagePause = (ImageView) findViewById(R.id.pause);
+        this.chrono.setVisibility(View.INVISIBLE);
+        this.imagePause.setVisibility(View.INVISIBLE);
 
         this.demarrageJeu();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
     public void nouvellePartie(){
         this.pause = SystemClock.elapsedRealtime();
         this.chrono.stop();
+        this.chrono.setVisibility(View.INVISIBLE);
+        this.imagePause.setVisibility(View.VISIBLE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         View viewLayout = getLayoutInflater().inflate(R.layout.demarrer_dialog,null);
@@ -152,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
         this.frameLayout.addView(this.canvasGrille);
         this.chrono.setBase(SystemClock.elapsedRealtime());
         this.chrono.start();
+        this.chrono.setVisibility(View.VISIBLE);
+        this.imagePause.setVisibility(View.INVISIBLE);
+
         final ArrayMotAdapter motArrayAdapter = new ArrayMotAdapter(this,this.grille.getListeMotsFinale());
         listView.setAdapter(motArrayAdapter);
     }
@@ -159,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
     public void reprendre(){
         this.chrono.setBase(this.chrono.getBase() + SystemClock.elapsedRealtime() - this.pause);
         this.chrono.start();
+        this.chrono.setVisibility(View.VISIBLE);
+        this.imagePause.setVisibility(View.INVISIBLE);
     }
 
     private void reglesDialog() {

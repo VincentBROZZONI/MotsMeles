@@ -15,11 +15,29 @@
         tools:ignore="MissingConstraints"
         app:popupTheme="@style/AppTheme">
 
-
-        <Chronometer
-            android:id="@+id/chronometer"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp">
+
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:id="@+id/pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_media_pause"
+                tools:layout_editor_absoluteX="64dp"
+                tools:layout_editor_absoluteY="32dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,41 +51,41 @@
     </android.support.v7.widget.Toolbar>
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barre_outils_menu"
+        >
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listViewMot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></ListView>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="64dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barre_outils_menu"
-            >
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <FrameLayout
+                android:id="@+id/frameGrilleMot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <ListView
-                    android:id="@+id/listViewMot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></ListView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:id="@+id/frameGrilleMot"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                </FrameLayout>
-            </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>
