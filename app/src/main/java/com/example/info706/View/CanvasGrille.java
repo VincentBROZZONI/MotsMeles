@@ -7,9 +7,13 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ListView;
 
 import com.example.info706.Model.Grille;
+import com.example.info706.Model.Mot;
 import com.example.info706.R;
+
+import java.util.Iterator;
 
 
 public class CanvasGrille extends View {
@@ -18,6 +22,9 @@ public class CanvasGrille extends View {
     private Paint paint2;
     private Grille grille;
     private Path path;
+    private int xPosDepart, yPosDepart, xPosFin, yPosFin;
+    private String motRecupere;
+
 
     public CanvasGrille(Context context, Grille grille) {
         super(context);
@@ -29,68 +36,112 @@ public class CanvasGrille extends View {
     }
 
     @Override
-    public void onDraw (Canvas canvas){
-            super.onDraw(canvas);
-            canvas.drawColor(getResources().getColor(R.color.colorBackground));
-            this.paint.setColor(Color.WHITE);
-            this.paint.setTextSize(60);
-            int departX = 200;
-            int departY = 120;
-            int decalageX = 0;
-            int decalageY = 0;
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.drawColor(getResources().getColor(R.color.colorBackground));
+        this.paint.setColor(Color.WHITE);
+        this.paint.setTextSize(60);
+        int departX = 200;
+        int departY = 120;
+        int decalageX = 0;
+        int decalageY = 0;
 
-            int i,j;
-            for (i = 0 ; i < Grille.getTailleDefaut() ; i++){
-                for ( j = 0 ; j < Grille.getTailleDefaut() ; j++){
-                    canvas.drawText(this.grille.getGrilleCaracteres()[i][j],departX + decalageX + 30 , departY + decalageY - 30 ,this.paint);
-                    decalageY += 120;
-                }
-                decalageY = 0;
-                decalageX += 120;
+        int i, j;
+        for (i = 0; i < Grille.getTailleDefaut(); i++) {
+            for (j = 0; j < Grille.getTailleDefaut(); j++) {
+                canvas.drawText(this.grille.getGrilleCaracteres()[i][j], departX + decalageX + 30, departY + decalageY - 30, this.paint);
+                decalageY += 120;
             }
-            paint2.setStrokeJoin(Paint.Join.ROUND);
-            paint2.setStyle(Paint.Style.STROKE);
-            paint2.setStrokeWidth(5f);
-            canvas.drawPath(path,paint2);
+            decalageY = 0;
+            decalageX += 120;
+        }
+        this.paint2.setColor(Color.WHITE);
+        this.paint2.setStrokeJoin(Paint.Join.ROUND);
+        this.paint2.setStyle(Paint.Style.STROKE);
+        this.paint2.setStrokeWidth(8f);
+        canvas.drawPath(path, paint2);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float xPos = event.getX();
         float yPos = event.getY();
-        String motRecupere;
 
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(coordDansLaGrille(xPos,yPos)) {
-                    path.moveTo(xPos - (xPos % 120), yPos - (yPos % 120) + 60);
+                this.motRecupere = "";
+                if (coordDansLaGrille(xPos, yPos)) {
+                    xPosDepart = ((int) (xPos - 200) / 120);
+                    yPosDepart = ((int) yPos / 120);
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
-                if(coordDansLaGrille(xPos,yPos)) {
-                    path.lineTo(xPos - (xPos % 120), yPos - (yPos % 120) + 60);
-                    System.out.println(getLettreGrille(xPos,yPos));
-                }
-                /*System.out.println("x : " + xPos);
-                System.out.println("y : " + yPos);*/
                 break;
             case MotionEvent.ACTION_UP:
+                xPosFin = ((int) (xPos - 200) / 120);
+                yPosFin = ((int) yPos / 120);
+                if (xPosDepart != xPosFin || yPosDepart != yPosFin) {
+                    if (xPosDepart == xPosFin && yPosDepart <= yPosFin) {
+                        for (int j = yPosDepart; j <= yPosFin; j++) {
+                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
+                        }
+                    }
+                    System.out.println("Mot: " + this.motRecupere);
+
+                    if (xPosDepart == xPosFin && yPosDepart > yPosFin) {
+                        for (int j = yPosDepart; j >= yPosFin; j--) {
+                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
+                        }
+                        System.out.println("Mot: " + motRecupere);
+                    }
+
+                    if (xPosDepart <= xPosFin && yPosDepart == yPosFin) {
+                        for (int i = xPosDepart; i <= xPosFin; i++) {
+                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
+                        }
+                        System.out.println("Mot: " + motRecupere);
+                    }
+
+                    if (xPosDepart > xPosFin && yPosDepart == yPosFin) {
+                        for (int i = xPosDepart; i >= xPosFin; i--) {
+                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
+                        }
+                        System.out.println("Mot: " + motRecupere);
+                    }
+                    if(motDansLaGrille(motRecupere)){
+                        System.out.println("APPLICATION TERMINEE !!!!!!!!!!!!!!!");
+                    }
+                }
+
                 break;
             default:
                 return false;
         }
+
         invalidate();
         return true;
     }
 
-    public boolean coordDansLaGrille(float xPos,float yPos){
-        return xPos >= 200 && yPos >= 0 && xPos <= 1400 && yPos < 1440;
+    public boolean coordDansLaGrille(float xPos, float yPos) {
+        return xPos >= 200 && yPos >= 0 && xPos <= 1400 && yPos < 1320;
     }
 
-    public String getLettreGrille(float xPos,float yPos){
-        int xPosModulo,yPosModulo;
-        xPosModulo = ((int) (xPos-200)/120);
-        yPosModulo = ((int) yPos/120);
+    public boolean motDansLaGrille(String mot) {
+        boolean resultat = false;
+        Iterator<Mot> iterator = this.grille.getListeMotsFinale().iterator();
+        while (iterator.hasNext()) {
+            Mot motCourant = iterator.next();
+            if (motCourant.getChaineMot().equals(mot)) {
+                resultat = true;
+            }
+        }
+        return resultat;
+    }
+
+    public String getLettreGrille(float xPos, float yPos) {
+        int xPosModulo, yPosModulo;
+        xPosModulo = ((int) (xPos - 200) / 120);
+        yPosModulo = ((int) yPos / 120);
         return this.grille.getGrilleCaracteres()[xPosModulo][yPosModulo];
     }
 
