@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">MOTS MÊLÉS</string>
     <string name="reset_jeu">Nouvelle grille</string>
+    <string name="info_jeu">Règles du jeu</string>
+    <string name="timerDebut">0:00</string>
+    <string name="demarrerPartie">Vous allez créer une nouvelle partie.\n
+                                    Votre partie en cours sera perdue.\n\n
+                                    Etes-vous sûr?</string>
+    <string name="demarrer"> C\'est parti !</string>
+    <string name="annuler"> Annuler</string>
+    <string name="bienvenue">Bienvenue sur l\'application\nde mots mêlés!\n\nEtes-vous prêt ?</string>
 </resources>
