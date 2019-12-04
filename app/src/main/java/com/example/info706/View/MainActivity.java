@@ -1,4 +1,5 @@
 package com.example.info706.View;
+import android.graphics.Color;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -163,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.canvasGrille = new CanvasGrille(this , this.grille);
         this.frameLayout.addView(this.canvasGrille);
+        this.canvasGrille.setMainActivity(this);
         this.chrono.setBase(SystemClock.elapsedRealtime());
         this.chrono.start();
         this.chrono.setVisibility(View.VISIBLE);
@@ -177,6 +179,10 @@ public class MainActivity extends AppCompatActivity {
         this.chrono.start();
         this.chrono.setVisibility(View.VISIBLE);
         this.imagePause.setVisibility(View.INVISIBLE);
+    }
+
+    public void griseItemListView(int index){
+        this.listView.getChildAt(index).setBackgroundColor(Color.GRAY);
     }
 
     private void reglesDialog() {

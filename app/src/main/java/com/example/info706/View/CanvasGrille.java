@@ -24,6 +24,7 @@ public class CanvasGrille extends View {
     private Path path;
     private int xPosDepart, yPosDepart, xPosFin, yPosFin;
     private String motRecupere;
+    MainActivity mainActivity;
 
 
     public CanvasGrille(Context context, Grille grille) {
@@ -81,34 +82,8 @@ public class CanvasGrille extends View {
                 xPosFin = ((int) (xPos - 200) / 120);
                 yPosFin = ((int) yPos / 120);
                 if (xPosDepart != xPosFin || yPosDepart != yPosFin) {
-                    if (xPosDepart == xPosFin && yPosDepart <= yPosFin) {
-                        for (int j = yPosDepart; j <= yPosFin; j++) {
-                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
-                        }
-                    }
-                    System.out.println("Mot: " + this.motRecupere);
-
-                    if (xPosDepart == xPosFin && yPosDepart > yPosFin) {
-                        for (int j = yPosDepart; j >= yPosFin; j--) {
-                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
-                        }
-                        System.out.println("Mot: " + motRecupere);
-                    }
-
-                    if (xPosDepart <= xPosFin && yPosDepart == yPosFin) {
-                        for (int i = xPosDepart; i <= xPosFin; i++) {
-                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
-                        }
-                        System.out.println("Mot: " + motRecupere);
-                    }
-
-                    if (xPosDepart > xPosFin && yPosDepart == yPosFin) {
-                        for (int i = xPosDepart; i >= xPosFin; i--) {
-                            this.motRecupere += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
-                        }
-                        System.out.println("Mot: " + motRecupere);
-                    }
-                    if(motDansLaGrille(motRecupere)){
+                    this.motRecupere = recupererMot(xPosDepart,yPosDepart,xPosFin,yPosFin);
+                    if (motDansLaGrille(motRecupere)) {
                         System.out.println("APPLICATION TERMINEE !!!!!!!!!!!!!!!");
                     }
                 }
@@ -128,11 +103,45 @@ public class CanvasGrille extends View {
 
     public boolean motDansLaGrille(String mot) {
         boolean resultat = false;
+        int index = 0;
         Iterator<Mot> iterator = this.grille.getListeMotsFinale().iterator();
         while (iterator.hasNext()) {
             Mot motCourant = iterator.next();
             if (motCourant.getChaineMot().equals(mot)) {
                 resultat = true;
+                this.mainActivity.griseItemListView(index);
+            }
+            index++;
+        }
+        return resultat;
+    }
+
+    public String recupererMot(int xPosDepart, int yPosDepart, int xPosFin, int yPosFin) {
+        String resultat = "";
+        if (xPosDepart == xPosFin && yPosDepart <= yPosFin) {
+            for (int j = yPosDepart; j <= yPosFin; j++) {
+                resultat += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
+            }
+        }
+        System.out.println("Mot: " + this.motRecupere);
+
+        if (xPosDepart == xPosFin && yPosDepart > yPosFin) {
+            for (int j = yPosDepart; j >= yPosFin; j--) {
+                resultat += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
+            }
+            System.out.println("Mot: " + motRecupere);
+        }
+
+        if (xPosDepart <= xPosFin && yPosDepart == yPosFin) {
+            for (int i = xPosDepart; i <= xPosFin; i++) {
+                resultat += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
+            }
+            System.out.println("Mot: " + motRecupere);
+        }
+
+        if (xPosDepart > xPosFin && yPosDepart == yPosFin) {
+            for (int i = xPosDepart; i >= xPosFin; i--) {
+                resultat += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
             }
         }
         return resultat;
@@ -145,4 +154,7 @@ public class CanvasGrille extends View {
         return this.grille.getGrilleCaracteres()[xPosModulo][yPosModulo];
     }
 
+    public void setMainActivity(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
+    }
 }
