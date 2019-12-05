@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.info706.Controller.AnnulerListener;
 import com.example.info706.Controller.ArrayMotAdapter;
 import com.example.info706.Controller.DemarrerListener;
+import com.example.info706.Model.ChargerDico;
 import com.example.info706.Model.Direction;
 import com.example.info706.Model.Grille;
 import com.example.info706.Model.Mot;
@@ -36,26 +37,11 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout frameLayout;
     private CanvasGrille canvasGrille;
     private Grille grille;
-    private Map<String,String> dico;
     private Chronometer chrono ;
     private ImageView imagePause;
     private long pause;
     private Button demarrer;
     private Button annuler;
-    private String[] mots = new String[]{
-            "CANVAS", "STRING", "ATTRIBUTS", "METHODE", "PARAMETRES", "OBJET",
-            "JSON","JAVA","ADA","ECLIPSE","ANDROID","CLASSE","GETTER",
-            "SETTER", "ACTIVITE","GRILLE","FRAME","LAYOUT"};
-    private String[] def = new String[]{
-            "Canevas permettant de dessiner dans un layout",
-            "Classe gérant les chaînes de caractère",
-            "Paramêtres d'une classe JAVA",
-            "Fonction d'une classe JAVA",
-            "Objets donnés à une méthode",
-            "Instance d'une classe",
-            "Format de données textuelles dérivé de la notation des objets du langage JavaScript",
-            "Défini à l'origine comme un langage de programmation, Java a évolué pour devenir un ensemble cohérent d'éléments techniques et non techniques",
-            "Ada est un langage de programmation orienté objet dont les premières versions remontent au début des années 1980"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,16 +83,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void creerDico(String[] mots, String[] def) {
-        this.dico = new HashMap<>();
-        int i = 0;
-        while (i < mots.length && i< def.length){
-            this.dico.put(mots[i],def[i]);
-            i++;
-        }
-    }
-
     private void creerListe(){
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -128,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void demarrageJeu(){
 
-        this.creerDico(this.mots , this.def);
         this.creerListe();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -160,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void creerNouvellePartie(){
-        this.grille = new Grille(this.dico);
-
+        this.grille = new Grille(ChargerDico.creerDico());
         this.canvasGrille = new CanvasGrille(this , this.grille);
         this.frameLayout.addView(this.canvasGrille);
         this.canvasGrille.setMainActivity(this);
