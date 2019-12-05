@@ -7,7 +7,8 @@ import java.util.Random;
 
 public class Grille {
 
-    private static final int TAILLE_DEFAUT = 10 ;
+    private static final int HAUTEUR_DEFAUT = 9 ;
+    private static final int LARGEUR_DEFAUT = 12 ;
     private static final String CARACTERE_DEFAUT = " ";
     private static final int NOMBRE_MOTS_PARTIE = 12 ;
     private String[][] grilleCaracteres;
@@ -31,10 +32,10 @@ public class Grille {
 
 
     public void inititialiseGrille (){
-        this.grilleCaracteres = new String[TAILLE_DEFAUT][TAILLE_DEFAUT];
+        this.grilleCaracteres = new String[LARGEUR_DEFAUT][HAUTEUR_DEFAUT];
         int i,j;
-        for (i = 0 ; i < TAILLE_DEFAUT ; i++){
-            for(j = 0 ; j < TAILLE_DEFAUT; j++){
+        for (i = 0 ; i < LARGEUR_DEFAUT ; i++){
+            for(j = 0 ; j < HAUTEUR_DEFAUT; j++){
                 this.grilleCaracteres[i][j] = CARACTERE_DEFAUT;
             }
         }
@@ -50,16 +51,24 @@ public class Grille {
 
                 switch(motAPlacer.getDirectionMot()){
                     case HORIZONTAL:
-                        tentativePlacerMotHorizontal(motAPlacer);
+                        if(motAPlacer.getLongueurMot()<= LARGEUR_DEFAUT) {
+                            tentativePlacerMotHorizontal(motAPlacer);
+                        }
                         break;
                     case VERTICAL:
-                        tentativePlacerMotVertical(motAPlacer);
+                        if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
+                            tentativePlacerMotVertical(motAPlacer);
+                        }
                         break;
                     case DIAGONAL_BAS:
-                        tentativePlacerMotDiagonalBas(motAPlacer);
+                        if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
+                            tentativePlacerMotDiagonalBas(motAPlacer);
+                        }
                         break;
                     case DIAGONAL_HAUT:
-                        tentativePlacerMotDiagonalHaut(motAPlacer);
+                        if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
+                            tentativePlacerMotDiagonalHaut(motAPlacer);
+                        }
                         break;
                     default:
                         break;
@@ -80,13 +89,13 @@ public class Grille {
         if (motAPlacer.getSensMot() == Sens.INVERSE){
             inverseMot(motAPlacer);
         }
-        colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
-        ligneMot = new Random().nextInt(TAILLE_DEFAUT);
+        colonneDebutMot = new Random().nextInt(LARGEUR_DEFAUT - motAPlacer.getLongueurMot()+1);
+        ligneMot = new Random().nextInt(HAUTEUR_DEFAUT);
         timeOut = 0;
 
         while (!positionValideHorizontal(motAPlacer, colonneDebutMot, ligneMot) && timeOut < 10) {
-            colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
-            ligneMot = new Random().nextInt(TAILLE_DEFAUT);
+            colonneDebutMot = new Random().nextInt(LARGEUR_DEFAUT - motAPlacer.getLongueurMot() + 1);
+            ligneMot = new Random().nextInt(HAUTEUR_DEFAUT);
             timeOut++;
         }
         if (timeOut < 10) {
@@ -106,12 +115,12 @@ public class Grille {
             inverseMot(motAPlacer);
         }
 
-        ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
-        colonneMot = new Random().nextInt(TAILLE_DEFAUT);
+        ligneDebutMot = new Random().nextInt(HAUTEUR_DEFAUT - motAPlacer.getLongueurMot() + 1);
+        colonneMot = new Random().nextInt(LARGEUR_DEFAUT);
         timeOut = 0;
         while (!positionValideVertical(motAPlacer, colonneMot, ligneDebutMot) && timeOut < 10) {
-            ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
-            colonneMot = new Random().nextInt(TAILLE_DEFAUT);
+            ligneDebutMot = new Random().nextInt(HAUTEUR_DEFAUT - motAPlacer.getLongueurMot() + 1);
+            colonneMot = new Random().nextInt(LARGEUR_DEFAUT);
             timeOut++;
         }
         if (timeOut < 10) {
@@ -130,13 +139,13 @@ public class Grille {
         if (motAPlacer.getSensMot() == Sens.INVERSE){
             inverseMot(motAPlacer);
         }
-        colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1 );
-        ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1);
+        colonneDebutMot = new Random().nextInt(LARGEUR_DEFAUT - motAPlacer.getLongueurMot() + 1 );
+        ligneDebutMot = new Random().nextInt(HAUTEUR_DEFAUT - motAPlacer.getLongueurMot()+1);
         timeOut = 0;
 
         while(!positionValideDiagonalBas(motAPlacer,colonneDebutMot,ligneDebutMot) && timeOut < 10){
-            ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1);
-            colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1);
+            ligneDebutMot = new Random().nextInt(HAUTEUR_DEFAUT - motAPlacer.getLongueurMot() + 1);
+            colonneDebutMot = new Random().nextInt(LARGEUR_DEFAUT-motAPlacer.getLongueurMot()+1);
             timeOut++;
         }
         if(timeOut < 10) {
@@ -155,13 +164,13 @@ public class Grille {
         if (motAPlacer.getSensMot() == Sens.INVERSE){
             inverseMot(motAPlacer);
         }
-        colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1 );
-        ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1) + motAPlacer.getLongueurMot()-1 ;
+        colonneDebutMot = new Random().nextInt(LARGEUR_DEFAUT - motAPlacer.getLongueurMot() + 1 );
+        ligneDebutMot = new Random().nextInt(HAUTEUR_DEFAUT-motAPlacer.getLongueurMot()+1) + motAPlacer.getLongueurMot()-1 ;
         timeOut = 0;
 
         while(!positionValideDiagonalHaut(motAPlacer,colonneDebutMot,ligneDebutMot) && timeOut < 10){
-            ligneDebutMot = new Random().nextInt(TAILLE_DEFAUT - motAPlacer.getLongueurMot() + 1) + motAPlacer.getLongueurMot()-1;
-            colonneDebutMot = new Random().nextInt(TAILLE_DEFAUT-motAPlacer.getLongueurMot()+1);
+            ligneDebutMot = new Random().nextInt(HAUTEUR_DEFAUT - motAPlacer.getLongueurMot() + 1) + motAPlacer.getLongueurMot()-1;
+            colonneDebutMot = new Random().nextInt(LARGEUR_DEFAUT-motAPlacer.getLongueurMot()+1);
             timeOut++;
         }
         if(timeOut < 10) {
@@ -294,8 +303,8 @@ public class Grille {
     //Methode permattant de remplir les cases restantes de la grille
 
     public void remplirCasesRestantes(){
-        for(int i = 0 ; i < TAILLE_DEFAUT ; i++){
-            for(int j = 0 ; j< TAILLE_DEFAUT ; j++){
+        for(int i = 0 ; i < LARGEUR_DEFAUT ; i++){
+            for(int j = 0 ; j< HAUTEUR_DEFAUT ; j++){
                 if(this.grilleCaracteres[i][j].equals(CARACTERE_DEFAUT)){
                     char c = (char) (new Random().nextInt(26) + 'A');
                     this.grilleCaracteres[i][j] = String.valueOf(c);
@@ -312,8 +321,12 @@ public class Grille {
         mot.setChaineMot(inverse.toString());
 
     }
-    public static int getTailleDefaut() {
-        return TAILLE_DEFAUT;
+    public static int getHauteurDefaut() {
+        return HAUTEUR_DEFAUT;
+    }
+
+    public static int getLargeurDefaut() {
+        return LARGEUR_DEFAUT;
     }
 
     public String[][] getGrilleCaracteres() {

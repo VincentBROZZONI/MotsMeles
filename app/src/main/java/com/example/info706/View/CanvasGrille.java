@@ -48,8 +48,8 @@ public class CanvasGrille extends View {
         int decalageY = 0;
 
         int i, j;
-        for (i = 0; i < Grille.getTailleDefaut(); i++) {
-            for (j = 0; j < Grille.getTailleDefaut(); j++) {
+        for (i = 0; i < Grille.getLargeurDefaut(); i++) {
+            for (j = 0; j < Grille.getHauteurDefaut(); j++) {
                 canvas.drawText(this.grille.getGrilleCaracteres()[i][j], departX + decalageX + 30, departY + decalageY - 30, this.paint);
                 decalageY += 120;
             }
