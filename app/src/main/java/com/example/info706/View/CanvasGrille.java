@@ -32,6 +32,7 @@ public class CanvasGrille extends View {
     private Path path;
     private int xPosDepart, yPosDepart, xPosFin, yPosFin;
     private float xPosDepartFloat, yPosDepartFloat, xPosFinFloat, yPosFinFloat;
+    private ArrayList<String> listMotRaye;
     private String motRecupere;
     private ArrayList<Trait> listTrait;
     MainActivity mainActivity;
@@ -43,6 +44,7 @@ public class CanvasGrille extends View {
         this.paint2 = new Paint();
         this.path = new Path();
         this.listTrait = new ArrayList<>();
+        this.listMotRaye = new ArrayList<>();
         this.grille = grille;
         this.paint2.setAntiAlias(true);
     }
@@ -97,13 +99,13 @@ public class CanvasGrille extends View {
                     System.out.println("yPosFin: " + yPosFin);
                     if (xPosDepart != xPosFin || yPosDepart != yPosFin) {
                         this.motRecupere = recupererMot(xPosDepart, yPosDepart, xPosFin, yPosFin);
-                        if (motDansLaGrille(motRecupere)) {
+                        if (motDansLaGrille(motRecupere) && !motDejaRaye(motRecupere)) {
+                            listMotRaye.add(motRecupere);
                             xPosFinFloat = (((xPosFin + 1)) * CanvasGrille.DECALAGE_X);
                             yPosFinFloat = ((yPosFin + 1) * CanvasGrille.DECALAGE_Y) - 60;
                             float tabPoints[] = {xPosDepartFloat, yPosDepartFloat, xPosFinFloat, yPosFinFloat};
                             Trait trait = new Trait(this.randomColor());
                             trait.setTabPoints(tabPoints);
-                            System.out.println("Index mot" + this.indexMotDansLaGrille(motRecupere));
                             this.mainActivity.griseItemListView(this.indexMotDansLaGrille(motRecupere), trait.getColor());
                             listTrait.add(trait);
                         }
@@ -147,6 +149,18 @@ public class CanvasGrille extends View {
         return resultat;
     }
 
+    public boolean motDejaRaye(String mot){
+        boolean raye = false;
+        Iterator<String> iteratorListMotRaye = this.listMotRaye.iterator();
+        while(iteratorListMotRaye.hasNext()){
+            String motIterator = iteratorListMotRaye.next();
+            if(motIterator.equals(mot)){
+                raye = true;
+            }
+        }
+        return raye;
+    }
+
     public int indexMotDansLaGrille(String mot) {
         int resultat = 0;
         int index = 0;
@@ -187,28 +201,35 @@ public class CanvasGrille extends View {
             }
         }
 
-        if (xPosDepart < xPosFin && yPosDepart < yPosFin) {
-            for (int i = 0; i <= xPosFin - xPosDepart; i++) {
-                resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][i + yPosDepart];
+        if (xPosFin - xPosDepart == yPosFin - yPosDepart) {
+            if (xPosDepart < xPosFin && yPosDepart < yPosFin) {
+                for (int i = 0; i <= xPosFin - xPosDepart; i++) {
+                    resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][i + yPosDepart];
+                }
+            }
+        }
+        if (xPosFin - xPosDepart == yPosFin - yPosDepart) {
+            if (xPosDepart > xPosFin && yPosDepart > yPosFin) {
+                for (int i = 0; i >= xPosFin - xPosDepart; i--) {
+                    resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][i + yPosDepart];
+                }
             }
         }
 
-        if (xPosDepart > xPosFin && yPosDepart > yPosFin) {
-            for (int i = 0; i >= xPosFin - xPosDepart; i--) {
-                    resultat += "" + this.grille.getGrilleCaracteres()[i+xPosDepart][i+yPosDepart];
-                }
-        }
-
-        if (xPosDepart > xPosFin && yPosDepart < yPosFin) {
-            for (int i = 0; i >= xPosFin - xPosDepart; i--) {
+        if (-(xPosFin - xPosDepart) == yPosFin - yPosDepart) {
+            if (xPosDepart > xPosFin && yPosDepart < yPosFin) {
+                for (int i = 0; i >= xPosFin - xPosDepart; i--) {
                     resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][-i + yPosDepart];
                 }
             }
+        }
 
-        if (xPosDepart < xPosFin && yPosDepart > yPosFin) {
-            for (int i = 0; i <= xPosFin - xPosDepart; i++) {
+        if (xPosFin - xPosDepart == -(yPosFin - yPosDepart)) {
+            if (xPosDepart < xPosFin && yPosDepart > yPosFin) {
+                for (int i = 0; i <= xPosFin - xPosDepart; i++) {
                     resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][-i + yPosDepart];
                 }
+            }
         }
         return resultat;
     }
