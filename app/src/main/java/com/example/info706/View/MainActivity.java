@@ -25,8 +25,10 @@ import com.example.info706.Model.ChargerDico;
 import com.example.info706.Model.Direction;
 import com.example.info706.Model.Grille;
 import com.example.info706.Model.Mot;
+import com.example.info706.Model.Trait;
 import com.example.info706.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -155,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
         this.imagePause.setVisibility(View.INVISIBLE);
     }
 
-    public void griseItemListView(int index){
-        this.listView.getChildAt(index).setBackgroundColor(Color.GRAY);
+    public void griseItemListView(int index,int color){
+        this.listView.getChildAt(index).setBackgroundColor(color);
     }
 
     private void reglesDialog() {

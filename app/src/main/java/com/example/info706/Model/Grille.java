@@ -47,19 +47,19 @@ public class Grille {
 
         while(this.listeMotsFinale.size()< NOMBRE_MOTS_PARTIE && i< this.listeMots.size()){
 
-                Mot motAPlacer = this.listeMots.get(i);
+            Mot motAPlacer = this.listeMots.get(i);
 
-                switch(motAPlacer.getDirectionMot()){
-                    case HORIZONTAL:
-                        if(motAPlacer.getLongueurMot()<= LARGEUR_DEFAUT) {
-                            tentativePlacerMotHorizontal(motAPlacer);
-                        }
-                        break;
-                    case VERTICAL:
-                        if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
-                            tentativePlacerMotVertical(motAPlacer);
-                        }
-                        break;
+            switch(motAPlacer.getDirectionMot()){
+                case HORIZONTAL:
+                    if(motAPlacer.getLongueurMot()<= LARGEUR_DEFAUT) {
+                        tentativePlacerMotHorizontal(motAPlacer);
+                    }
+                    break;
+                case VERTICAL:
+                    if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
+                        tentativePlacerMotVertical(motAPlacer);
+                    }
+                    break;
                     case DIAGONAL_BAS:
                         if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
                             tentativePlacerMotDiagonalBas(motAPlacer);
@@ -70,10 +70,10 @@ public class Grille {
                             tentativePlacerMotDiagonalHaut(motAPlacer);
                         }
                         break;
-                    default:
-                        break;
-                }
-                i++;
+                default:
+                    break;
+            }
+            i++;
         }
         remplirCasesRestantes();
     }
