@@ -60,7 +60,7 @@ public class Grille {
                             tentativePlacerMotVertical(motAPlacer);
                         }
                         break;
-                   /* case DIAGONAL_BAS:
+                    case DIAGONAL_BAS:
                         if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
                             tentativePlacerMotDiagonalBas(motAPlacer);
                         }
@@ -69,7 +69,7 @@ public class Grille {
                         if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
                             tentativePlacerMotDiagonalHaut(motAPlacer);
                         }
-                        break;*/
+                        break;
                     default:
                         break;
                 }
@@ -132,7 +132,7 @@ public class Grille {
         }
     }
 
-/*
+
     private void tentativePlacerMotDiagonalBas(Mot motAPlacer) {
         int ligneDebutMot,colonneDebutMot,timeOut;
 
@@ -180,7 +180,7 @@ public class Grille {
             }
             this.listeMotsFinale.add(motAPlacer);
         }
-    }*/
+    }
 
 
     //************************************************************************
@@ -217,7 +217,7 @@ public class Grille {
 
         return placeLibre;
     }
-/*
+
     private boolean positionValideDiagonalBas(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
         boolean placeLibre = true;
         int i = 0;
@@ -251,7 +251,7 @@ public class Grille {
         }
         return placeLibre;
     }
-*/
+
     //*************************************************************************************
     //*************************************************************************************
     //Methodes de placement des mots dans la grille
@@ -276,7 +276,7 @@ public class Grille {
         }
     }
 
-    /*
+
     private void placerMotDiagonalBas(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
         int x = colonneDebutMot;
         int y = ligneDebutMot;
@@ -298,7 +298,7 @@ public class Grille {
             y--;
         }
     }
-*/
+
     //***************************************************************************************
     //***************************************************************************************
     //Methode permattant de remplir les cases restantes de la grille

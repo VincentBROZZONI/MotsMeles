@@ -4,9 +4,9 @@ import java.util.Random;
 
 public enum Direction {
     HORIZONTAL,
-    VERTICAL
-    /*DIAGONAL_BAS,
-    DIAGONAL_HAUT*/
+    VERTICAL,
+    DIAGONAL_BAS,
+    DIAGONAL_HAUT
     ;
 
     public static Direction randomDirection(){
