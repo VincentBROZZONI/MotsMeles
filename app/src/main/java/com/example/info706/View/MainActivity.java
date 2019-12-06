@@ -30,7 +30,6 @@ import com.example.info706.R;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
@@ -185,5 +184,3 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
-
-

@@ -4,15 +4,14 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/apropos"
-        android:text="@string/apropos"
+        android:id="@+id/action_about"
+        android:text="@string/a_propos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:layout_margin="20dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textStyle="italic"
         />
 
 </RelativeLayout>
