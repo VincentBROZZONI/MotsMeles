@@ -2,6 +2,7 @@
     <string name="app_name">MOTS MÊLÉS</string>
     <string name="reset_jeu">Nouvelle grille</string>
     <string name="info_jeu">Règles du jeu</string>
+    <string name="about_jeu">A propos</string>
     <string name="timerDebut">0:00</string>
     <string name="demarrerPartie">Vous allez créer une nouvelle partie.\n
                                     Votre partie en cours sera perdue.\n\n
@@ -9,4 +10,6 @@
     <string name="demarrer"> C\'est parti !</string>
     <string name="annuler"> Annuler</string>
     <string name="bienvenue">Bienvenue sur l\'application\nde mots mêlés!\n\nEtes-vous prêt ?</string>
+    <string name="regles">Bienvenue sur l\'application\nde mots mêlés!\n\nVoici les règles du jeu:</string>
+    <string name="apropos">Application réalisée dans le cadre du cursus universitaire</string>
 </resources>

@@ -75,20 +75,26 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_reset:
                 this.nouvellePartie();
+                break;
             case R.id.action_info:
                 this.reglesDialog();
+                break;
+            case R.id.action_about:
+                this.aProposDialog();
                 return true;
 
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Méthode de création de la listeView comprenant les mots à chercher
+     */
     private void creerListe(){
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Mot motSelect = (Mot) parent.getItemAtPosition(position);
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 View viewLayout = getLayoutInflater().inflate(R.layout.definition_dialog,null);
                 TextView mot = viewLayout.findViewById(R.id.mot);
@@ -102,10 +108,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Méthode de démarrage d'une partie
+     * Crée la liste des mots à chercher et une dialogue de confirmation de lancement de partie
+     */
     public void demarrageJeu(){
 
         this.creerListe();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         View viewLayout = getLayoutInflater().inflate(R.layout.bienvenue_dialog,null);
         this.demarrer = viewLayout.findViewById(R.id.demarrer);
@@ -145,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         this.imagePause.setVisibility(View.INVISIBLE);
 
         final ArrayMotAdapter motArrayAdapter = new ArrayMotAdapter(this,this.grille.getListeMotsFinale());
-        listView.setAdapter(motArrayAdapter);
+        this.listView.setAdapter(motArrayAdapter);
     }
 
     public void reprendre(){
@@ -160,7 +169,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reglesDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View viewLayout = getLayoutInflater().inflate(R.layout.regles_dialog,null);
+        builder.setView(viewLayout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
+    private void aProposDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View viewLayout = getLayoutInflater().inflate(R.layout.apropos_dialog,null);
+        builder.setView(viewLayout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
     }
 }
