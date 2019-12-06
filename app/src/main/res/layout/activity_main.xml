@@ -6,14 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".View.MainActivity">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barre_outils_menu">
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listViewMot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/frameGrilleMot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/barre_outils_menu"
         android:layout_width="match_parent"
-        android:background="@color/colorToolBar"
         android:layout_height="64dp"
+        android:background="@color/colorToolBar"
         android:elevation="4dp"
-        tools:ignore="MissingConstraints"
-        app:popupTheme="@style/AppTheme">
+        app:popupTheme="@style/AppTheme"
+        tools:ignore="MissingConstraints">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -30,62 +68,24 @@
                 android:id="@+id/pause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 app:srcCompat="@android:drawable/ic_media_pause"
                 tools:layout_editor_absoluteX="64dp"
-                tools:layout_editor_absoluteY="32dp"
-                android:layout_centerInParent="true"/>
+                tools:layout_editor_absoluteY="32dp" />
 
         </RelativeLayout>
 
 
-
         <TextView
+            android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
             android:layout_gravity="center"
+            android:text="@string/app_name"
             android:textSize="22sp"
-            android:id="@+id/toolbar_title"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </android.support.v7.widget.Toolbar>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="64dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barre_outils_menu"
-        >
-
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/listViewMot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></ListView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:id="@+id/frameGrilleMot"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </FrameLayout>
-        </LinearLayout>
-    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

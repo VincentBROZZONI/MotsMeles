@@ -2,11 +2,24 @@
     <string name="app_name">MOTS MÊLÉS</string>
     <string name="reset_jeu">Nouvelle grille</string>
     <string name="info_jeu">Règles du jeu</string>
-    <string name="timerDebut">0:00</string>
-    <string name="demarrerPartie">Vous allez créer une nouvelle partie.\n
+    <string name="about_jeu">A propos</string>
+    <string name="demarrer_partie">Vous allez créer une nouvelle partie.\n
                                     Votre partie en cours sera perdue.\n\n
                                     Etes-vous sûr?</string>
     <string name="demarrer"> C\'est parti !</string>
     <string name="annuler"> Annuler</string>
     <string name="bienvenue">Bienvenue sur l\'application\nde mots mêlés!\n\nEtes-vous prêt ?</string>
+    <string name="titre_regles">Règles du Jeu</string>
+    <string name="texte_regles"> Les mots à trouver sont affichés dans la liste à gauche.
+        \nDans la grille, ils peuvent être disposés horizontalement, verticalement, en diagonale et écrits aussi bien à l\'endroit qu\'à l\'envers.
+        \nUne même lettre peut être utilisée dans plusieurs mots à la fois.
+        \n\nQuand vous avez repéré un mot dans la grille, rayez le de la première lettre jusqu\'à la dernière lettre.
+        \nLe mot trouvé reste surligné en couleur et sa couleur dans la liste change.
+        \n\nPour recommencer une partie, cliquez sur "Nouvelle grille" dans le menu en haut à droite.
+    </string>
+    <string name="a_propos">Application réalisée dans le cadre du cursus universitaire \n\n
+                            Théo Jugand / Vincent Brozzoni \n
+                            Master ISC 1ère année \n
+                            Université Savoie Mont-Blanc
+    </string>
 </resources>
