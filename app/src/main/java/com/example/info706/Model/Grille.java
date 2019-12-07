@@ -60,16 +60,16 @@ public class Grille {
                         tentativePlacerMotVertical(motAPlacer);
                     }
                     break;
-                    case DIAGONAL_BAS:
-                        if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
-                            tentativePlacerMotDiagonalBas(motAPlacer);
-                        }
-                        break;
-                    case DIAGONAL_HAUT:
-                        if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
-                            tentativePlacerMotDiagonalHaut(motAPlacer);
-                        }
-                        break;
+                case DIAGONAL_BAS:
+                    if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
+                        tentativePlacerMotDiagonalBas(motAPlacer);
+                    }
+                    break;
+                case DIAGONAL_HAUT:
+                    if(motAPlacer.getLongueurMot()<= HAUTEUR_DEFAUT) {
+                        tentativePlacerMotDiagonalHaut(motAPlacer);
+                    }
+                    break;
                 default:
                     break;
             }

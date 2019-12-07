@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Chronometer chrono ;
     private ImageView imagePause;
     private long pause;
+    private AlertDialog dialog;
     private Button demarrer;
     private Button annuler;
 
@@ -61,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         this.imagePause.setVisibility(View.INVISIBLE);
 
         this.demarrageJeu();
+    }
+
+    @Override
+    public void onBackPressed(){
     }
 
     @Override
@@ -117,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.creerListe();
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
         View viewLayout = getLayoutInflater().inflate(R.layout.bienvenue_dialog,null);
         this.demarrer = viewLayout.findViewById(R.id.demarrer);
         builder.setView(viewLayout);
@@ -133,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         this.imagePause.setVisibility(View.VISIBLE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
         View viewLayout = getLayoutInflater().inflate(R.layout.demarrer_dialog,null);
         this.demarrer = viewLayout.findViewById(R.id.demarrer);
         this.annuler = viewLayout.findViewById(R.id.annuler);
@@ -140,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        this.dialog = dialog;
         this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
         this.annuler.setOnClickListener(new AnnulerListener(this,dialog));
     }
@@ -183,6 +191,5 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(viewLayout);
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 }
