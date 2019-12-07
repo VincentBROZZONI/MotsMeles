@@ -9,11 +9,11 @@
     <TextView
         android:id="@+id/choix_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:lineSpacingExtra="18sp"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:paddingLeft="40dp"
+        android:paddingLeft="20dp"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

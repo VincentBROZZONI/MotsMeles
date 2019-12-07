@@ -1,7 +1,5 @@
 package com.example.info706.View;
-import android.graphics.Color;
 import android.os.SystemClock;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
@@ -21,14 +18,13 @@ import android.widget.TextView;
 import com.example.info706.Controller.AnnulerListener;
 import com.example.info706.Controller.ArrayMotAdapter;
 import com.example.info706.Controller.DemarrerListener;
-import com.example.info706.Model.ChargerDico;
-import com.example.info706.Model.Direction;
 import com.example.info706.Model.Grille;
 import com.example.info706.Model.Mot;
-import com.example.info706.Model.Trait;
 import com.example.info706.R;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private Chronometer chrono ;
     private ImageView imagePause;
     private long pause;
-    private AlertDialog dialog;
     private Button demarrer;
     private Button annuler;
 
@@ -66,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        //empêche le retour en arrière
     }
 
     @Override
@@ -75,9 +71,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    //gère le click sur une action de l'ActionBar
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //gère le click sur une action de l'ActionBar
         switch (item.getItemId()){
             case R.id.action_reset:
                 this.nouvellePartie();
@@ -132,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
     }
 
+    /**
+     * Méthode de création de la dialogue permettant de démarrer une nouvelle partie
+     */
     public void nouvellePartie(){
         this.pause = SystemClock.elapsedRealtime();
         this.chrono.stop();
@@ -147,13 +147,16 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        this.dialog = dialog;
         this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
         this.annuler.setOnClickListener(new AnnulerListener(this,dialog));
     }
 
+    /**
+     * Méthode pour recommencer une partie avec une nouvelle grille et
+     * nouvelle liste de mots et remise à zero du chronomètre
+     */
     public void creerNouvellePartie(){
-        this.grille = new Grille(ChargerDico.creerDico());
+        this.grille = new Grille(this.creerDico());
         this.canvasGrille = new CanvasGrille(this , this.grille);
         this.frameLayout.addView(this.canvasGrille);
         this.canvasGrille.setMainActivity(this);
@@ -166,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
         this.listView.setAdapter(motArrayAdapter);
     }
 
+    /**
+     * Méthode permettant de redémarrer le chronomètre
+     */
     public void reprendre(){
         this.chrono.setBase(this.chrono.getBase() + SystemClock.elapsedRealtime() - this.pause);
         this.chrono.start();
@@ -173,10 +179,20 @@ public class MainActivity extends AppCompatActivity {
         this.imagePause.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Méthode permettant de "griser" un mot trouvé
+     * @param index
+     * l'index du mot dans la liste
+     * @param color
+     * la couleur dans laquelle on grise le mot
+     */
     public void griseItemListView(int index,int color){
         this.listView.getChildAt(index).setBackgroundColor(color);
     }
 
+    /**
+     * Création de la dialogue de l'option "Regles du jeu" du menu
+     */
     private void reglesDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         View viewLayout = getLayoutInflater().inflate(R.layout.regles_dialog,null);
@@ -185,11 +201,35 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Création de la dialogue de l'option "A propos" du menu
+     */
     private void aProposDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         View viewLayout = getLayoutInflater().inflate(R.layout.apropos_dialog,null);
         builder.setView(viewLayout);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * Méthode de création du dictionaire
+     * Lis un fichier contenant des mots avec leur définition
+     * @return
+     * une map de mots/définitions
+     */
+    public Map<String,String> creerDico() {
+        Map<String,String> dico = new HashMap<>();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("mots.txt")));
+            String st;
+            while ((st = br.readLine()) != null) {
+                String[] parts = st.split("=");
+                dico.put(parts[0],parts[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return dico;
     }
 }
