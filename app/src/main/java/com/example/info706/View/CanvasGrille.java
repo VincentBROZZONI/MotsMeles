@@ -178,39 +178,39 @@ public class CanvasGrille extends View {
     public String recupererMot(int xPosDepart, int yPosDepart, int xPosFin, int yPosFin) {
         String resultat = "";
         if (xPosDepart == xPosFin && yPosDepart <= yPosFin) {
-            for (int j = yPosDepart; j <= yPosFin; j++) {
+            for (int j = yPosDepart; j < yPosFin; j++) {
                 resultat += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
             }
         }
 
         if (xPosDepart == xPosFin && yPosDepart > yPosFin) {
-            for (int j = yPosDepart; j >= yPosFin; j--) {
+            for (int j = yPosDepart; j > yPosFin; j--) {
                 resultat += "" + this.grille.getGrilleCaracteres()[xPosDepart][j];
             }
         }
 
         if (xPosDepart <= xPosFin && yPosDepart == yPosFin) {
-            for (int i = xPosDepart; i <= xPosFin; i++) {
+            for (int i = xPosDepart; i < xPosFin; i++) {
                 resultat += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
             }
         }
 
         if (xPosDepart > xPosFin && yPosDepart == yPosFin) {
-            for (int i = xPosDepart; i >= xPosFin; i--) {
+            for (int i = xPosDepart; i > xPosFin; i--) {
                 resultat += "" + this.grille.getGrilleCaracteres()[i][yPosDepart];
             }
         }
 
         if (xPosFin - xPosDepart == yPosFin - yPosDepart) {
             if (xPosDepart < xPosFin && yPosDepart < yPosFin) {
-                for (int i = 0; i <= xPosFin - xPosDepart; i++) {
+                for (int i = 0; i < xPosFin - xPosDepart; i++) {
                     resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][i + yPosDepart];
                 }
             }
         }
         if (xPosFin - xPosDepart == yPosFin - yPosDepart) {
             if (xPosDepart > xPosFin && yPosDepart > yPosFin) {
-                for (int i = 0; i >= xPosFin - xPosDepart; i--) {
+                for (int i = 0; i > xPosFin - xPosDepart; i--) {
                     resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][i + yPosDepart];
                 }
             }
@@ -218,7 +218,7 @@ public class CanvasGrille extends View {
 
         if (-(xPosFin - xPosDepart) == yPosFin - yPosDepart) {
             if (xPosDepart > xPosFin && yPosDepart < yPosFin) {
-                for (int i = 0; i >= xPosFin - xPosDepart; i--) {
+                for (int i = 0; i > xPosFin - xPosDepart; i--) {
                     resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][-i + yPosDepart];
                 }
             }
@@ -226,7 +226,7 @@ public class CanvasGrille extends View {
 
         if (xPosFin - xPosDepart == -(yPosFin - yPosDepart)) {
             if (xPosDepart < xPosFin && yPosDepart > yPosFin) {
-                for (int i = 0; i <= xPosFin - xPosDepart; i++) {
+                for (int i = 0; i < xPosFin - xPosDepart; i++) {
                     resultat += "" + this.grille.getGrilleCaracteres()[i + xPosDepart][-i + yPosDepart];
                 }
             }
