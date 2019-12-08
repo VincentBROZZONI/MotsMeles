@@ -22,7 +22,7 @@ public class Grille {
         Iterator it = dico.keySet().iterator();
         while(it.hasNext()) {
             Object cle = it.next();
-            Mot temp = new Mot(cle.toString(), cle.toString().length(), Direction.randomDirection(), Sens.randomSens(), dico.get(cle));
+            Mot temp = new Mot(cle.toString(), cle.toString().length(), Direction.randomDirection(), Sens.randomSens(), dico.get(cle) , false);
             this.listeMots.add(temp);
         }
 
