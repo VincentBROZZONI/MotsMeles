@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.example.info706.Model.Grille;
 import com.example.info706.Model.Mot;
+import com.example.info706.Model.Partie;
 import com.example.info706.Model.Trait;
 import com.example.info706.R;
 
@@ -32,8 +33,9 @@ public class CanvasGrille extends View {
     private String motRecupere;
     private ArrayList<Trait> listTrait;
     private MainActivity mainActivity;
+    private Partie partie;
 
-    public CanvasGrille(Context context, Grille grille, MainActivity mainActivity) {
+    public CanvasGrille(Context context, Grille grille,MainActivity mainActivity, Partie partie) {
         super(context);
         this.paint = new Paint();
         this.paint2 = new Paint();
@@ -42,6 +44,7 @@ public class CanvasGrille extends View {
         this.grille = grille;
         this.paint2.setAntiAlias(true);
         this.mainActivity = mainActivity;
+        this.partie = partie;
     }
 
     @Override
@@ -97,7 +100,7 @@ public class CanvasGrille extends View {
                             trait.setTabPoints(tabPoints);
                             this.mainActivity.griseItemListView(this.indexMotDansLaGrille(motRecupere), trait.getColor());
                             this.listTrait.add(trait);
-                            this.mainActivity.finPartie();
+                            this.partie.finPartie();
                         }
                     }
                 }
