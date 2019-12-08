@@ -7,19 +7,22 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <TextView
                 android:id="@+id/titreRegles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="28dp"
                 android:text="@string/titre_regles"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -30,11 +33,10 @@
                 android:id="@+id/texteRegles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/mot"
+                android:layout_alignLeft="@+id/titreRegles"
                 android:layout_alignTop="@+id/titreRegles"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="50dp"
+                android:layout_marginBottom="25dp"
                 android:text="@string/texte_regles"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
