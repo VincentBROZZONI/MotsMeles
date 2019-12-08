@@ -80,6 +80,8 @@ public class CanvasGrille extends View {
                 if (coordDansLaGrille(xPos, yPos)) {
                     this.xPosDepart = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
                     this.yPosDepart = ((int) yPos / CanvasGrille.DECALAGE_Y);
+                    System.out.println("xPos: " + xPos);
+                    System.out.println("yPos: " + yPos);
                     System.out.println("xPosDepart: " + xPosDepart);
                     System.out.println("yPosDepart: " + yPosFin);
                     this.xPosDepartFloat = (((this.xPosDepart + 1)) * CanvasGrille.DECALAGE_X);
@@ -130,7 +132,7 @@ public class CanvasGrille extends View {
     }
 
     public boolean coordDansLaGrille(float xPos, float yPos) {
-        return xPos >= CanvasGrille.DECALAGE_DEPART_X && yPos >= 0 && xPos <= (CanvasGrille.DECALAGE_X * Grille.getLargeurDefaut()) + CanvasGrille.DECALAGE_DEPART_X && (yPos < CanvasGrille.DECALAGE_Y * Grille.getHauteurDefaut() + 120);
+        return xPos >= CanvasGrille.DECALAGE_DEPART_X && yPos >= 0 && xPos <= (CanvasGrille.DECALAGE_X * Grille.getLargeurDefaut()) + CanvasGrille.DECALAGE_DEPART_X && yPos <= (CanvasGrille.DECALAGE_Y * Grille.getHauteurDefaut());
     }
 
     public boolean motValide(String mot) {
