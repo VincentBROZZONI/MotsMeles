@@ -12,6 +12,4 @@ public enum Direction {
     public static Direction randomDirection(){
         return values()[new Random().nextInt(values().length)];
     }
-
-
 }

@@ -2,7 +2,7 @@ package com.example.info706.Model;
 
 public class Mot {
 
-    private static final int TAILLE_MAX_MOT = 10;
+    private static final int TAILLE_MAX_MOT = 12;
 
     private String chaineMot;
     private int longueurMot;
