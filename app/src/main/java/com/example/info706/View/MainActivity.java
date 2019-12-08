@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //gère le click sur une action de l'ActionBar
@@ -86,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about:
                 this.aProposDialog();
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -108,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 mot.setText(motSelect.getChaineMot());
                 def.setText("- " + motSelect.getDefinition());
                 dialog.show();
+                Log.d("trouve", "" + motSelect.getTrouve());
             }
         });
     }
@@ -117,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
      * Crée la liste des mots à chercher et une dialogue de confirmation de lancement de partie
      */
     public void demarrageJeu(){
-
         this.creerListe();
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(false);
@@ -138,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
         this.chrono.stop();
         this.chrono.setVisibility(View.INVISIBLE);
         this.imagePause.setVisibility(View.VISIBLE);
-
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(false);
         View viewLayout = getLayoutInflater().inflate(R.layout.demarrer_dialog,null);
@@ -158,14 +155,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public void creerNouvellePartie(){
         this.grille = new Grille(this.creerDico());
-        this.canvasGrille = new CanvasGrille(this , this.grille);
+        this.canvasGrille = new CanvasGrille(this , this.grille , this );
         this.frameLayout.addView(this.canvasGrille);
-        this.canvasGrille.setMainActivity(this);
         this.chrono.setBase(SystemClock.elapsedRealtime());
         this.chrono.start();
         this.chrono.setVisibility(View.VISIBLE);
         this.imagePause.setVisibility(View.INVISIBLE);
-
         final ArrayMotAdapter motArrayAdapter = new ArrayMotAdapter(this,this.grille.getListeMotsFinale());
         this.listView.setAdapter(motArrayAdapter);
     }
@@ -178,6 +173,34 @@ public class MainActivity extends AppCompatActivity {
         this.chrono.start();
         this.chrono.setVisibility(View.VISIBLE);
         this.imagePause.setVisibility(View.INVISIBLE);
+    }
+
+
+    public boolean testFinPartie(){
+        boolean toutTrouve = true;
+        int i = 0;
+        while (i < this.grille.getListeMotsFinale().size() && toutTrouve){
+            if(!this.grille.getListeMotsFinale().get(i).getTrouve()){
+                toutTrouve = false;
+            }
+            i++;
+        }
+        return toutTrouve;
+    }
+
+    public void finPartie(){
+        if(testFinPartie()){
+            this.chrono.stop();
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setCancelable(false);
+            View viewLayout = getLayoutInflater().inflate(R.layout.fin_dialog,null);
+            this.demarrer = viewLayout.findViewById(R.id.demarrer);
+            builder.setView(viewLayout);
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
+        }
     }
 
     /**

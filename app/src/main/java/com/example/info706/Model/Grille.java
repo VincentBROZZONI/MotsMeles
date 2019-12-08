@@ -10,7 +10,7 @@ public class Grille {
     private static final int HAUTEUR_DEFAUT = 9 ;
     private static final int LARGEUR_DEFAUT = 12 ;
     private static final String CARACTERE_DEFAUT = " ";
-    private static final int NOMBRE_MOTS_PARTIE = 16 ;
+    private static final int NOMBRE_MOTS_PARTIE = 10 ;
     private String[][] grilleCaracteres;
     private ArrayList<Mot> listeMots;
     private ArrayList<Mot> listeMotsFinale;
@@ -22,7 +22,7 @@ public class Grille {
         Iterator it = dico.keySet().iterator();
         while(it.hasNext()) {
             Object cle = it.next();
-            Mot temp = new Mot(cle.toString(), cle.toString().length(), Direction.randomDirection(), Sens.randomSens(), dico.get(cle));
+            Mot temp = new Mot(cle.toString(), cle.toString().length(), Direction.randomDirection(), Sens.randomSens(), dico.get(cle) , false);
             this.listeMots.add(temp);
         }
 

@@ -5,10 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ListView;
 
 import com.example.info706.Model.Grille;
 import com.example.info706.Model.Mot;
@@ -18,7 +16,6 @@ import com.example.info706.R;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-
 
 public class CanvasGrille extends View {
 
@@ -32,21 +29,19 @@ public class CanvasGrille extends View {
     private Path path;
     private int xPosDepart, yPosDepart, xPosFin, yPosFin;
     private float xPosDepartFloat, yPosDepartFloat, xPosFinFloat, yPosFinFloat;
-    private ArrayList<String> listMotRaye;
     private String motRecupere;
     private ArrayList<Trait> listTrait;
-    MainActivity mainActivity;
+    private MainActivity mainActivity;
 
-
-    public CanvasGrille(Context context, Grille grille) {
+    public CanvasGrille(Context context, Grille grille, MainActivity mainActivity) {
         super(context);
         this.paint = new Paint();
         this.paint2 = new Paint();
         this.path = new Path();
         this.listTrait = new ArrayList<>();
-        this.listMotRaye = new ArrayList<>();
         this.grille = grille;
         this.paint2.setAntiAlias(true);
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -59,7 +54,6 @@ public class CanvasGrille extends View {
         int departY = CanvasGrille.DECALAGE_DEPART_Y;
         int decalageX = 0;
         int decalageY = 0;
-
         int i, j;
         for (i = 0; i < Grille.getLargeurDefaut(); i++) {
             for (j = 0; j < Grille.getHauteurDefaut(); j++) {
@@ -81,33 +75,29 @@ public class CanvasGrille extends View {
             case MotionEvent.ACTION_DOWN:
                 this.motRecupere = "";
                 if (coordDansLaGrille(xPos, yPos)) {
-                    xPosDepart = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
-                    yPosDepart = ((int) yPos / CanvasGrille.DECALAGE_Y);
-                    xPosDepartFloat = (((xPosDepart + 1)) * CanvasGrille.DECALAGE_X);
-                    yPosDepartFloat = ((yPosDepart + 1) * CanvasGrille.DECALAGE_Y) - 60;
-                    System.out.println("xPosDepart : " + xPosDepart);
-                    System.out.println("yPosDepart : " + yPosDepart);
+                    this.xPosDepart = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
+                    this.yPosDepart = ((int) yPos / CanvasGrille.DECALAGE_Y);
+                    this.xPosDepartFloat = (((this.xPosDepart + 1)) * CanvasGrille.DECALAGE_X);
+                    this.yPosDepartFloat = ((this.yPosDepart + 1) * CanvasGrille.DECALAGE_Y) - 60;
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_UP:
                 if (coordDansLaGrille(xPos, yPos)) {
-                    xPosFin = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
-                    yPosFin = ((int) yPos / CanvasGrille.DECALAGE_Y);
-                    System.out.println("xPosFin: " + xPosFin);
-                    System.out.println("yPosFin: " + yPosFin);
-                    if (xPosDepart != xPosFin || yPosDepart != yPosFin) {
-                        this.motRecupere = recupererMot(xPosDepart, yPosDepart, xPosFin, yPosFin);
-                        if (motDansLaGrille(motRecupere) && !motDejaRaye(motRecupere)) {
-                            listMotRaye.add(motRecupere);
-                            xPosFinFloat = (((xPosFin + 1)) * CanvasGrille.DECALAGE_X);
-                            yPosFinFloat = ((yPosFin + 1) * CanvasGrille.DECALAGE_Y) - 60;
-                            float tabPoints[] = {xPosDepartFloat, yPosDepartFloat, xPosFinFloat, yPosFinFloat};
+                    this.xPosFin = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
+                    this.yPosFin = ((int) yPos / CanvasGrille.DECALAGE_Y);
+                    if (this.xPosDepart != this.xPosFin || this.yPosDepart != this.yPosFin) {
+                        this.motRecupere = recupererMot(this.xPosDepart, this.yPosDepart, this.xPosFin, this.yPosFin);
+                        if (motValide(this.motRecupere)) {
+                            this.xPosFinFloat = (((this.xPosFin + 1)) * CanvasGrille.DECALAGE_X);
+                            this.yPosFinFloat = ((this.yPosFin + 1) * CanvasGrille.DECALAGE_Y) - 60;
+                            float tabPoints[] = {this.xPosDepartFloat, this.yPosDepartFloat, this.xPosFinFloat, this.yPosFinFloat};
                             Trait trait = new Trait(this.randomColor());
                             trait.setTabPoints(tabPoints);
                             this.mainActivity.griseItemListView(this.indexMotDansLaGrille(motRecupere), trait.getColor());
-                            listTrait.add(trait);
+                            this.listTrait.add(trait);
+                            this.mainActivity.finPartie();
                         }
                     }
                 }
@@ -115,7 +105,6 @@ public class CanvasGrille extends View {
             default:
                 return false;
         }
-
         invalidate();
         return true;
     }
@@ -137,28 +126,17 @@ public class CanvasGrille extends View {
         return xPos >= CanvasGrille.DECALAGE_DEPART_X && yPos >= 0 && xPos <= (CanvasGrille.DECALAGE_X * Grille.getLargeurDefaut()) + CanvasGrille.DECALAGE_DEPART_X && (yPos < CanvasGrille.DECALAGE_Y * Grille.getHauteurDefaut() + 120);
     }
 
-    public boolean motDansLaGrille(String mot) {
+    public boolean motValide(String mot) {
         boolean resultat = false;
         Iterator<Mot> iterator = this.grille.getListeMotsFinale().iterator();
         while (iterator.hasNext()) {
             Mot motCourant = iterator.next();
-            if (motCourant.getChaineMot().equals(mot)) {
+            if (motCourant.getChaineMot().equals(mot) && !motCourant.getTrouve()) {
                 resultat = true;
+                motCourant.setTrouve(resultat);
             }
         }
         return resultat;
-    }
-
-    public boolean motDejaRaye(String mot){
-        boolean raye = false;
-        Iterator<String> iteratorListMotRaye = this.listMotRaye.iterator();
-        while(iteratorListMotRaye.hasNext()){
-            String motIterator = iteratorListMotRaye.next();
-            if(motIterator.equals(mot)){
-                raye = true;
-            }
-        }
-        return raye;
     }
 
     public int indexMotDansLaGrille(String mot) {
@@ -234,14 +212,9 @@ public class CanvasGrille extends View {
         return resultat;
     }
 
-
     public int randomColor() {
         Random random = new Random();
         int color = Color.argb(255, random.nextInt(80) + 120, random.nextInt(80) + 120, random.nextInt(80) + 120);
         return color;
-    }
-
-    public void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
     }
 }

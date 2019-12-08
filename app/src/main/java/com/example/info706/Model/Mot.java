@@ -9,37 +9,42 @@ public class Mot {
     private Direction directionMot;
     private Sens sensMot;
     private String definition;
+    private boolean trouve;
 
-    public Mot(String chaine, int longueur , Direction direction , Sens sens, String definition){
+    public Mot(String chaine, int longueur , Direction direction , Sens sens, String definition , boolean trouve){
 
         this.chaineMot = chaine;
         this.sensMot = sens;
         this.longueurMot = longueur;
         this.directionMot = direction;
         this.definition = definition;
+        this.trouve = trouve;
 
     }
 
     public int getLongueurMot() {
-        return longueurMot;
+        return this.longueurMot;
     }
 
     public Direction getDirectionMot() {
-        return directionMot;
+        return this.directionMot;
     }
 
     public Sens getSensMot() {
-        return sensMot;
+        return this.sensMot;
     }
 
     public String getChaineMot() {
-        return chaineMot;
+        return this.chaineMot;
     }
 
-    public String getDefinition(){ return definition; }
+    public String getDefinition(){ return this.definition; }
+
+    public boolean getTrouve(){ return this.trouve;}
 
     public void setChaineMot(String chaineMot) {
         this.chaineMot = chaineMot;
     }
 
+    public void setTrouve(boolean trouve){ this.trouve = trouve;}
 }
