@@ -22,12 +22,35 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe de l'activité principale de l'application de mots mêlés
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Instance de la classe Partie
+     * @see Partie
+     */
     private Partie partie;
+
+    /**
+     * ListView affichant la liste de mots à trouver
+     */
     private ListView listView;
+
+    /**
+     * FrameLayout supportant le canevas dessiant la grille du jeu
+     */
     private FrameLayout frameLayout;
+
+    /**
+     * Chronomètre mesurant le temps d'une partie
+     */
     private Chronometer chrono ;
+
+    /**
+     * Vue de l'image du logo "Pause"
+     */
     private ImageView imagePause;
 
     @Override

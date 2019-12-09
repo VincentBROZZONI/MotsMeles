@@ -16,19 +16,76 @@ import com.example.info706.R;
 import com.example.info706.View.CanvasGrille;
 import com.example.info706.View.MainActivity;
 
+/**
+ * Classe gérant le système de partie
+ */
 public class Partie {
 
+    /**
+     * Instance de l'activité principale
+     */
     private MainActivity mainActivity;
+
+    /**
+     * Instance de la classe Grille
+     * @see Grille
+     */
     private Grille grille;
+
+    /**
+     * Instance de la classe CanvasGrille
+     * @see CanvasGrille
+     */
     private CanvasGrille canvasGrille;
+
+    /**
+     * ListView affichant les mots à trouver
+     */
     private ListView listView;
+
+    /**
+     * FrameLayout supportant le canevas dessiant la grille du jeu
+     */
     private FrameLayout frameLayout;
+
+    /**
+     * Chronomètre mesurant le temps d'une partie
+     */
     private Chronometer chrono ;
+
+    /**
+     * Temps écoulé pendant la pause
+     */
     private long pause;
+
+    /**
+     * Bouton permettant de lancer une partie
+     */
     private Button demarrer;
+
+    /**
+     * Bouton permettant de fermer la dialogue pour lancer une nouvelle partie et de relancer le chronomètre
+     */
     private Button annuler;
+
+    /**
+     * Vue de l'image du logo "Pause"
+     */
     private ImageView imagePause;
 
+    /**
+     * Constructeur
+     * @param mainActivity
+     * une activité de type MainActivity
+     * @param listView
+     * une ListView
+     * @param frameLayout
+     * un FrameLayout
+     * @param chrono
+     * un Chronometer
+     * @param imagePause
+     * Une ImageView
+     */
     public Partie(MainActivity mainActivity , ListView listView, FrameLayout frameLayout, Chronometer chrono , ImageView imagePause){
         this.mainActivity = mainActivity;
         this.listView = listView;
@@ -101,7 +158,11 @@ public class Partie {
         this.imagePause.setVisibility(View.INVISIBLE);
     }
 
-
+    /**
+     * Méthode testant si tous les mots de la liste ont été trouvé
+     * @return
+     * booléen indiquant si tous les mots ont été trouvé
+     */
     public boolean testFinPartie(){
         boolean toutTrouve = true;
         int i = 0;
@@ -114,6 +175,9 @@ public class Partie {
         return toutTrouve;
     }
 
+    /**
+     * Méthode affichant la dialogue de fin de partie permettant de relancer une nouvelle partie
+     */
     public void finPartie(){
         if(testFinPartie()){
             this.chrono.stop();
