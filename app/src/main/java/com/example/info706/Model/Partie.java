@@ -73,6 +73,8 @@ public class Partie {
      */
     private ImageView imagePause;
 
+    private ArrayMotAdapter motArrayAdapter;
+
     /**
      * Constructeur
      * @param mainActivity
@@ -144,7 +146,7 @@ public class Partie {
         this.chrono.start();
         this.chrono.setVisibility(View.VISIBLE);
         this.imagePause.setVisibility(View.INVISIBLE);
-        final ArrayMotAdapter motArrayAdapter = new ArrayMotAdapter(this.mainActivity,this.grille.getListeMotsFinale());
+        this.motArrayAdapter = new ArrayMotAdapter(this.mainActivity,this.grille.getListeMotsFinale());
         this.listView.setAdapter(motArrayAdapter);
     }
 
@@ -192,4 +194,6 @@ public class Partie {
             this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
         }
     }
+
+    public ArrayMotAdapter getArrayMotAdapter(){ return this.motArrayAdapter;}
 }

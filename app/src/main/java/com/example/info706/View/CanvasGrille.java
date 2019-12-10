@@ -104,7 +104,8 @@ public class CanvasGrille extends View {
                             float tabPoints[] = {this.xPosDepartFloat, this.yPosDepartFloat, this.xPosFinFloat, this.yPosFinFloat};
                             Trait trait = new Trait(this.randomColor());
                             trait.setTabPoints(tabPoints);
-                            this.mainActivity.griseItemListView(this.indexMotDansLaGrille(motRecupere), trait.getColor());
+                            this.grille.getListeMotsFinale().get(this.indexMotDansLaGrille(motRecupere)).setCouleur(trait.getColor());
+                            this.mainActivity.griseItemListView();
                             this.listTrait.add(trait);
                             this.partie.finPartie();
                         }
@@ -143,6 +144,7 @@ public class CanvasGrille extends View {
             if (motCourant.getChaineMot().equals(mot) && !motCourant.getTrouve()) {
                 resultat = true;
                 motCourant.setTrouve(resultat);
+                motCourant.setCouleur(this.randomColor());
             }
         }
         return resultat;

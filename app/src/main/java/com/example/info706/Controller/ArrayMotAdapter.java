@@ -26,6 +26,7 @@ public class ArrayMotAdapter extends ArrayAdapter<Mot> {
 
         TextView mot = convertView.findViewById(R.id.choix_name);
         mot.setText(getItem(position).getChaineMot());
+        mot.setTextColor(getItem(position).getCouleur());
         return convertView;
     }
 }

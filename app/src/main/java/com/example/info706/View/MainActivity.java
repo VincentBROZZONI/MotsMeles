@@ -137,15 +137,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Méthode permettant de "griser" un mot trouvé
-     * @param index
-     * l'index du mot dans la liste
-     * @param color
-     * la couleur dans laquelle on grise le mot
-     */
-    public void griseItemListView(int index,int color){
-        this.listView.getChildAt(index).setBackgroundColor(color);
+    public void griseItemListView(){
+        this.partie.getArrayMotAdapter().notifyDataSetChanged();
     }
 
     /**
