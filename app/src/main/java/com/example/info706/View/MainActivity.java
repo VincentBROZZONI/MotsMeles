@@ -1,5 +1,6 @@
 package com.example.info706.View;
 
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,11 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.info706.Controller.okListener;
 import com.example.info706.Model.Mot;
 import com.example.info706.Model.Partie;
 import com.example.info706.R;
@@ -52,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
      * Vue de l'image du logo "Pause"
      */
     private ImageView imagePause;
+
+    /**
+     * Bouton d'acceptation
+     */
+    private Button ok;
+
+    /**
+     * Temps écoulé pendant la pause
+     */
+    private long pause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,22 +152,39 @@ public class MainActivity extends AppCompatActivity {
      * Création de la dialogue de l'option "Regles du jeu" du menu
      */
     private void reglesDialog() {
+        this.pause = SystemClock.elapsedRealtime();
+        this.chrono.stop();
+        this.chrono.setVisibility(View.INVISIBLE);
+        this.imagePause.setVisibility(View.VISIBLE);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
         View viewLayout = getLayoutInflater().inflate(R.layout.regles_dialog,null);
+        this.ok = viewLayout.findViewById(R.id.ok);
         builder.setView(viewLayout);
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        this.ok.setOnClickListener(new okListener(this.chrono,dialog,this.pause,this.imagePause));
+
     }
 
     /**
      * Création de la dialogue de l'option "A propos" du menu
      */
     private void aProposDialog() {
+        this.pause = SystemClock.elapsedRealtime();
+        this.chrono.stop();
+        this.chrono.setVisibility(View.INVISIBLE);
+        this.imagePause.setVisibility(View.VISIBLE);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
         View viewLayout = getLayoutInflater().inflate(R.layout.apropos_dialog,null);
+        this.ok = viewLayout.findViewById(R.id.ok);
         builder.setView(viewLayout);
         AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        this.ok.setOnClickListener(new okListener(this.chrono,dialog,this.pause,this.imagePause));
     }
 
     /**
