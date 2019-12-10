@@ -1,10 +1,6 @@
 package com.example.info706.Model;
 
-import android.graphics.Color;
-
 public class Mot {
-
-    private static final int TAILLE_MAX_MOT = 12;
 
     private String chaineMot;
     private int longueurMot;

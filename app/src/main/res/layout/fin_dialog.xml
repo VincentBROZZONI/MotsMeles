@@ -5,20 +5,40 @@
     >
 
     <TextView
-        android:id="@+id/texte"
+        android:id="@+id/texteBravo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24dp"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:text="@string/fin" />
+        android:text="@string/finBravo" />
+    <TextView
+        android:id="@+id/temps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/texteBravo"
+        android:textSize="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+         />
+    <TextView
+        android:id="@+id/texteRecommencer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/temps"
+        android:textSize="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:text="@string/finRecommencer" />
 
     <Button
         android:id="@+id/demarrer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/texte"
+        android:layout_below="@+id/texteRecommencer"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"

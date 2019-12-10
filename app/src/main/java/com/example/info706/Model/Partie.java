@@ -2,12 +2,14 @@ package com.example.info706.Model;
 
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.info706.Controller.AnnulerListener;
 import com.example.info706.Controller.ArrayMotAdapter;
@@ -15,6 +17,8 @@ import com.example.info706.Controller.DemarrerListener;
 import com.example.info706.R;
 import com.example.info706.View.CanvasGrille;
 import com.example.info706.View.MainActivity;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Classe gérant le système de partie
@@ -183,12 +187,18 @@ public class Partie {
     public void finPartie(){
         if(testFinPartie()){
             this.chrono.stop();
+            this.chrono.setVisibility(View.INVISIBLE);
+            long elapsedMillis = SystemClock.elapsedRealtime() - this.chrono.getBase();
             AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
             builder.setCancelable(false);
             View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.fin_dialog,null);
             this.demarrer = viewLayout.findViewById(R.id.demarrer);
+            TextView temps = viewLayout.findViewById(R.id.temps);
             builder.setView(viewLayout);
             AlertDialog dialog = builder.create();
+            temps.setText(String.format("%d min et %d sec",
+                    TimeUnit.MILLISECONDS.toMinutes(elapsedMillis),
+                    TimeUnit.MILLISECONDS.toSeconds(elapsedMillis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsedMillis))));
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));

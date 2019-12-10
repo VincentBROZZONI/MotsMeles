@@ -9,7 +9,8 @@
     <string name="demarrer"> C\'est parti !</string>
     <string name="annuler"> Annuler</string>
     <string name="bienvenue">Bienvenue sur l\'application\nde mots mêlés!\n\nEtes-vous prêt ?</string>
-    <string name="fin">Bravo vous avez trouvé tous les mots\n\nVoulez vous recommencer une partie ?</string>
+    <string name="finBravo">Bravo vous avez trouvé tous les mots en</string>
+    <string name="finRecommencer">Voulez vous recommencer une partie ?</string>
     <string name="titre_regles">Règles du Jeu</string>
     <string name="texte_regles"> Les mots à trouver sont affichés dans la liste à gauche.
         \nDans la grille, ils peuvent être disposés horizontalement, verticalement, en diagonale et écrits aussi bien à l\'endroit qu\'à l\'envers.
