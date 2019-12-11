@@ -337,4 +337,17 @@ public class Grille {
     public ArrayList<Mot> getListeMotsFinale() {
         return listeMotsFinale;
     }
+
+    public Mot getMotByString(String mot){
+        Mot motRecupere = new Mot();
+        Iterator<Mot> iterator = this.listeMotsFinale.iterator();
+        while (iterator.hasNext()){
+            Mot motCourant = iterator.next();
+            if(motCourant.getChaineMot().equals(mot)){
+                motRecupere = motCourant;
+            }
+        }
+        return motRecupere;
+    }
+
 }
