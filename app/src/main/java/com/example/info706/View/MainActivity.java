@@ -16,23 +16,39 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.info706.Controller.HTTPJsonGetter;
+
 import com.example.info706.Controller.okListener;
 import com.example.info706.Model.Mot;
 import com.example.info706.Model.Partie;
 import com.example.info706.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Classe de l'activité principale de l'application de mots mêlés
+ *
+ * @author Brozzoni Vincent / Jugand Théo
  */
 public class MainActivity extends AppCompatActivity {
 
     /**
      * Instance de la classe Partie
+     *
      * @see Partie
      */
     private Partie partie;
@@ -50,12 +66,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Chronomètre mesurant le temps d'une partie
      */
-    private Chronometer chrono ;
+    private Chronometer chrono;
 
     /**
      * Vue de l'image du logo "Pause"
      */
     private ImageView imagePause;
+
+    public Map<String, String> dico;
+
 
     /**
      * Bouton d'acceptation
@@ -82,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         this.imagePause = (ImageView) findViewById(R.id.pause);
         this.chrono.setVisibility(View.INVISIBLE);
         this.imagePause.setVisibility(View.INVISIBLE);
-
-        this.partie = new Partie(this,this.listView,this.frameLayout,this.chrono,this.imagePause);
+        this.dico = new HashMap<>();
+        this.partie = new Partie(this, this.listView, this.frameLayout, this.chrono, this.imagePause);
         this.partie.demarrageJeu();
     }
 
@@ -170,8 +189,8 @@ public class MainActivity extends AppCompatActivity {
         this.chrono.setVisibility(View.INVISIBLE);
         this.imagePause.setVisibility(View.VISIBLE);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View viewLayout = getLayoutInflater().inflate(R.layout.apropos_dialog, null);
         builder.setCancelable(false);
-        View viewLayout = getLayoutInflater().inflate(R.layout.apropos_dialog,null);
         this.ok = viewLayout.findViewById(R.id.ok);
         builder.setView(viewLayout);
         AlertDialog dialog = builder.create();
@@ -183,21 +202,35 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Méthode de création du dictionaire
      * Lis un fichier contenant des mots avec leur définition
-     * @return
-     * une map de mots/définitions
+     *
+     * @return une map de mots/définitions
      */
-    public Map<String,String> creerDico() {
-        Map<String,String> dico = new HashMap<>();
+    public void creerDico(JSONObject jsonObject) {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("mots.txt")));
-            String st;
-            while ((st = br.readLine()) != null) {
-                String[] parts = st.split("=");
-                dico.put(parts[0],parts[1]);
+            JSONArray listMot = jsonObject.getJSONArray("listMots");
+            for (int i = 0; i < listMot.length(); i++) {
+                this.dico.put(listMot.getJSONObject(i).getString("name"), listMot.getJSONObject(i).getString("definition"));
             }
-        } catch (IOException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        return dico;
     }
+
+    public void afficheDefinitionMot(Mot motTrouve) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View viewLayout = getLayoutInflater().inflate(R.layout.definition_dialog, null);
+        TextView mot = viewLayout.findViewById(R.id.mot);
+        TextView def = viewLayout.findViewById(R.id.def);
+        builder.setView(viewLayout);
+        AlertDialog dialog = builder.create();
+        mot.setText(motTrouve.getChaineMot());
+        def.setText(motTrouve.getDefinition());
+        dialog.show();
+    }
+
+
+    public void onResponse(JSONObject jsonObject) {
+        this.creerDico(jsonObject);
+    }
+
 }

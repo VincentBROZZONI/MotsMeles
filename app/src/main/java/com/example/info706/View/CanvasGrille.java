@@ -18,14 +18,36 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * Classe de l'activité représentant la grille de lettres
+ * @author Brozzoni Vincent / Jugand Théo
+ */
 public class CanvasGrille extends View {
 
+    /**
+     * Constante du décalage en abscisse entre chaque lettre
+     */
     public final static int DECALAGE_X = 120;
+    /**
+     * Constante du décalage en ordonnée entre chaque lettre
+     */
     public final static int DECALAGE_Y = 120;
+    /**
+     * Constante de la coordonnée x de départ du canvas
+     */
     public final static int DECALAGE_DEPART_X = 75;
+    /**
+     * Constante de la coordonnée y de départ du canvas
+     */
     public final static int DECALAGE_DEPART_Y = 120;
-    private Paint paint;
-    private Paint paint2;
+    /**
+     * Instance de la classe Paint permettant de dessiner les lettres dans la grille
+     */
+    private Paint paintLettre;
+    /**
+     * Instance de la classe Paint permettant de dessiner les traits dans la grille
+     */
+    private Paint paintTrait;
     private Grille grille;
     private Path path;
     private int xPosDepart, yPosDepart, xPosFin, yPosFin;
@@ -37,12 +59,12 @@ public class CanvasGrille extends View {
 
     public CanvasGrille(Context context, Grille grille,MainActivity mainActivity, Partie partie) {
         super(context);
-        this.paint = new Paint();
-        this.paint2 = new Paint();
+        this.paintLettre = new Paint();
+        this.paintTrait = new Paint();
         this.path = new Path();
         this.listTrait = new ArrayList<>();
         this.grille = grille;
-        this.paint2.setAntiAlias(true);
+        this.paintTrait.setAntiAlias(true);
         this.mainActivity = mainActivity;
         this.partie = partie;
     }
@@ -51,8 +73,8 @@ public class CanvasGrille extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(getResources().getColor(R.color.colorBackground));
-        this.paint.setColor(Color.WHITE);
-        this.paint.setTextSize(60);
+        this.paintLettre.setColor(Color.WHITE);
+        this.paintLettre.setTextSize(60);
         int departX = CanvasGrille.DECALAGE_DEPART_X;
         int departY = CanvasGrille.DECALAGE_DEPART_Y;
         int decalageX = 0;
@@ -60,13 +82,13 @@ public class CanvasGrille extends View {
         int i, j;
         for (i = 0; i < Grille.getLargeurDefaut(); i++) {
             for (j = 0; j < Grille.getHauteurDefaut(); j++) {
-                canvas.drawText(this.grille.getGrilleCaracteres()[i][j], departX + decalageX + 30, departY + decalageY - 30, this.paint);
+                canvas.drawText(this.grille.getGrilleCaracteres()[i][j], departX + decalageX + 30, departY + decalageY - 30, this.paintLettre);
                 decalageY += CanvasGrille.DECALAGE_Y;
             }
             decalageY = 0;
             decalageX += CanvasGrille.DECALAGE_X;
         }
-        this.dessinerMotsRayes(this.listTrait, this.paint2, canvas);
+        this.dessinerMotsRayes(this.listTrait, this.paintTrait, canvas);
     }
 
     @Override
@@ -80,10 +102,6 @@ public class CanvasGrille extends View {
                 if (coordDansLaGrille(xPos, yPos)) {
                     this.xPosDepart = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
                     this.yPosDepart = ((int) yPos / CanvasGrille.DECALAGE_Y);
-                    System.out.println("xPos: " + xPos);
-                    System.out.println("yPos: " + yPos);
-                    System.out.println("xPosDepart: " + xPosDepart);
-                    System.out.println("yPosDepart: " + yPosFin);
                     this.xPosDepartFloat = (((this.xPosDepart + 1)) * CanvasGrille.DECALAGE_X);
                     this.yPosDepartFloat = ((this.yPosDepart + 1) * CanvasGrille.DECALAGE_Y) - 60;
                 }
@@ -95,8 +113,6 @@ public class CanvasGrille extends View {
                     this.xPosFin = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
                     this.yPosFin = ((int) yPos / CanvasGrille.DECALAGE_Y);
                     if (this.xPosDepart != this.xPosFin || this.yPosDepart != this.yPosFin) {
-                        System.out.println("xPosFin: " + xPosFin);
-                        System.out.println("yPosFin: " + yPosFin);
                         this.motRecupere = recupererMot(this.xPosDepart, this.yPosDepart, this.xPosFin, this.yPosFin);
                         if (motValide(this.motRecupere)) {
                             this.xPosFinFloat = (((this.xPosFin + 1)) * CanvasGrille.DECALAGE_X);
@@ -106,6 +122,7 @@ public class CanvasGrille extends View {
                             trait.setTabPoints(tabPoints);
                             this.grille.getListeMotsFinale().get(this.indexMotDansLaGrille(motRecupere)).setCouleur(trait.getColor());
                             this.mainActivity.griseItemListView();
+                            this.mainActivity.afficheDefinitionMot(this.grille.getMotByString(motRecupere));
                             this.listTrait.add(trait);
                             this.partie.finPartie();
                         }

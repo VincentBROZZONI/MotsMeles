@@ -22,6 +22,10 @@ public class Mot {
 
     }
 
+    public Mot(){
+
+    }
+
     public int getLongueurMot() {
         return this.longueurMot;
     }

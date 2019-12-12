@@ -2,7 +2,6 @@ package com.example.info706.Model;
 
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -14,11 +13,16 @@ import android.widget.TextView;
 import com.example.info706.Controller.AnnulerListener;
 import com.example.info706.Controller.ArrayMotAdapter;
 import com.example.info706.Controller.DemarrerListener;
+import com.example.info706.Controller.HTTPJsonGetter;
 import com.example.info706.R;
 import com.example.info706.View.CanvasGrille;
 import com.example.info706.View.MainActivity;
 
 import java.util.concurrent.TimeUnit;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Classe gérant le système de partie
@@ -98,6 +102,8 @@ public class Partie {
         this.frameLayout=frameLayout;
         this.chrono=chrono;
         this.imagePause = imagePause;
+        HTTPJsonGetter jsonGetter = new HTTPJsonGetter("http://www.lesageolivier.fr/motsmeles/get.php", this.mainActivity);
+        jsonGetter.execute();
     }
 
     /**
@@ -143,7 +149,7 @@ public class Partie {
      * nouvelle liste de mots et remise à zero du chronomètre
      */
     public void creerNouvellePartie(){
-        this.grille = new Grille(this.mainActivity.creerDico());
+        this.grille = new Grille(this.mainActivity.dico);
         this.canvasGrille = new CanvasGrille(this.mainActivity , this.grille ,this.mainActivity,this );
         this.frameLayout.addView(this.canvasGrille);
         this.chrono.setBase(SystemClock.elapsedRealtime());
