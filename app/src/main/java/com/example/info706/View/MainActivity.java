@@ -16,8 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.info706.Controller.HTTPJsonGetter;
-
+import com.example.info706.Controller.ReviewListener;
 import com.example.info706.Controller.okListener;
 import com.example.info706.Model.Mot;
 import com.example.info706.Model.Partie;
@@ -27,16 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -85,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
      * Temps écoulé pendant la pause
      */
     private long pause;
+
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,19 +156,26 @@ public class MainActivity extends AppCompatActivity {
      * Création de la dialogue de l'option "Regles du jeu" du menu
      */
     private void reglesDialog() {
-        this.pause = SystemClock.elapsedRealtime();
-        this.chrono.stop();
-        this.chrono.setVisibility(View.INVISIBLE);
-        this.imagePause.setVisibility(View.VISIBLE);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(false);
-        View viewLayout = getLayoutInflater().inflate(R.layout.regles_dialog,null);
+        View viewLayout = getLayoutInflater().inflate(R.layout.regles_dialog, null);
         this.ok = viewLayout.findViewById(R.id.ok);
         builder.setView(viewLayout);
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        this.ok.setOnClickListener(new okListener(this.chrono,dialog,this.pause,this.imagePause));
+        if (!this.partie.testFinPartie()) {
+            this.pause = SystemClock.elapsedRealtime();
+            this.chrono.stop();
+            this.chrono.setVisibility(View.INVISIBLE);
+            this.imagePause.setVisibility(View.VISIBLE);
+            this.ok.setOnClickListener(new okListener(this.chrono, dialog, this.pause, this.imagePause));
+        }
+        if(this.partie.testFinPartie()){
+            this.ok.setOnClickListener((new ReviewListener(dialog)));
+        }
+
 
     }
 
@@ -184,10 +183,7 @@ public class MainActivity extends AppCompatActivity {
      * Création de la dialogue de l'option "A propos" du menu
      */
     private void aProposDialog() {
-        this.pause = SystemClock.elapsedRealtime();
-        this.chrono.stop();
-        this.chrono.setVisibility(View.INVISIBLE);
-        this.imagePause.setVisibility(View.VISIBLE);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         View viewLayout = getLayoutInflater().inflate(R.layout.apropos_dialog, null);
         builder.setCancelable(false);
@@ -196,7 +192,16 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        this.ok.setOnClickListener(new okListener(this.chrono,dialog,this.pause,this.imagePause));
+        if (!this.partie.testFinPartie()) {
+            this.pause = SystemClock.elapsedRealtime();
+            this.chrono.stop();
+            this.chrono.setVisibility(View.INVISIBLE);
+            this.imagePause.setVisibility(View.VISIBLE);
+            this.ok.setOnClickListener(new okListener(this.chrono, dialog, this.pause, this.imagePause));
+        }
+        if(this.partie.testFinPartie()){
+            this.ok.setOnClickListener((new ReviewListener(dialog)));
+        }
     }
 
     /**
@@ -222,10 +227,10 @@ public class MainActivity extends AppCompatActivity {
         TextView mot = viewLayout.findViewById(R.id.mot);
         TextView def = viewLayout.findViewById(R.id.def);
         builder.setView(viewLayout);
-        AlertDialog dialog = builder.create();
+        this.dialog = builder.create();
         mot.setText(motTrouve.getChaineMot());
-        def.setText(motTrouve.getDefinition());
-        dialog.show();
+        def.setText("- " +motTrouve.getDefinition());
+        this.dialog.show();
     }
 
 
@@ -233,4 +238,7 @@ public class MainActivity extends AppCompatActivity {
         this.creerDico(jsonObject);
     }
 
+    public AlertDialog getDialog(){
+        return this.dialog;
+    }
 }

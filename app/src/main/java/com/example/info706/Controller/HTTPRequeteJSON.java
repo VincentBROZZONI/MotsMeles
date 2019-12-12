@@ -15,11 +15,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class HTTPJsonGetter extends AsyncTask<String, String, JSONObject> {
+public class HTTPRequeteJSON extends AsyncTask<String, String, JSONObject> {
     private MainActivity mainActivity;
     private String url;
 
-    public HTTPJsonGetter(String url, MainActivity mainActivity) {
+    public HTTPRequeteJSON(String url, MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         this.url = url;
     }

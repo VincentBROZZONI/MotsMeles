@@ -13,16 +13,13 @@ import android.widget.TextView;
 import com.example.info706.Controller.AnnulerListener;
 import com.example.info706.Controller.ArrayMotAdapter;
 import com.example.info706.Controller.DemarrerListener;
-import com.example.info706.Controller.HTTPJsonGetter;
+import com.example.info706.Controller.HTTPRequeteJSON;
+import com.example.info706.Controller.ReviewListener;
 import com.example.info706.R;
 import com.example.info706.View.CanvasGrille;
 import com.example.info706.View.MainActivity;
 
 import java.util.concurrent.TimeUnit;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Classe gérant le système de partie
@@ -76,6 +73,7 @@ public class Partie {
      */
     private Button annuler;
 
+    private Button continuer;
     /**
      * Vue de l'image du logo "Pause"
      */
@@ -102,8 +100,8 @@ public class Partie {
         this.frameLayout=frameLayout;
         this.chrono=chrono;
         this.imagePause = imagePause;
-        HTTPJsonGetter jsonGetter = new HTTPJsonGetter("http://www.lesageolivier.fr/motsmeles/get.php", this.mainActivity);
-        jsonGetter.execute();
+        HTTPRequeteJSON requeteJSON = new HTTPRequeteJSON("http://www.lesageolivier.fr/motsmeles/get.php", this.mainActivity);
+        requeteJSON.execute();
     }
 
     /**
@@ -126,11 +124,8 @@ public class Partie {
     /**
      * Méthode de création de la dialogue permettant de démarrer une nouvelle partie
      */
-    public void nouvellePartie(){
-        this.pause = SystemClock.elapsedRealtime();
-        this.chrono.stop();
-        this.chrono.setVisibility(View.INVISIBLE);
-        this.imagePause.setVisibility(View.VISIBLE);
+    public void nouvellePartie() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
         builder.setCancelable(false);
         View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.demarrer_dialog,null);
@@ -141,7 +136,17 @@ public class Partie {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
-        this.annuler.setOnClickListener(new AnnulerListener(this,dialog));
+        if (!this.testFinPartie()) {
+            this.pause = SystemClock.elapsedRealtime();
+            this.chrono.stop();
+            this.chrono.setVisibility(View.INVISIBLE);
+            this.imagePause.setVisibility(View.VISIBLE);
+            this.annuler.setOnClickListener(new AnnulerListener(this,dialog));
+
+        }
+        if(this.testFinPartie()){
+            this.annuler.setOnClickListener(new ReviewListener(dialog));
+        }
     }
 
     /**
@@ -199,6 +204,7 @@ public class Partie {
             builder.setCancelable(false);
             View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.fin_dialog,null);
             this.demarrer = viewLayout.findViewById(R.id.demarrer);
+            this.continuer = viewLayout.findViewById(R.id.continuer);
             TextView temps = viewLayout.findViewById(R.id.temps);
             builder.setView(viewLayout);
             AlertDialog dialog = builder.create();
@@ -207,7 +213,9 @@ public class Partie {
                     TimeUnit.MILLISECONDS.toSeconds(elapsedMillis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsedMillis))));
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
+            this.mainActivity.getDialog().cancel();
             this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
+            this.continuer.setOnClickListener(new ReviewListener(dialog));
         }
     }
 
