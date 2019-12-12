@@ -70,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private ImageView imagePause;
 
-    private Map<String, String> dico;
-
+    public Map<String, String> dico;
 
 
     @Override
@@ -217,7 +216,4 @@ public class MainActivity extends AppCompatActivity {
         this.creerDico(jsonObject);
     }
 
-    public Map<String,String> getDico(){
-        return this.dico;
-    }
 }

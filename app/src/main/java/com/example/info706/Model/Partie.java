@@ -100,6 +100,8 @@ public class Partie {
         this.frameLayout=frameLayout;
         this.chrono=chrono;
         this.imagePause = imagePause;
+        HTTPJsonGetter jsonGetter = new HTTPJsonGetter("http://www.lesageolivier.fr/motsmeles/get.php", this.mainActivity);
+        jsonGetter.execute();
     }
 
     /**
@@ -145,9 +147,7 @@ public class Partie {
      * nouvelle liste de mots et remise à zero du chronomètre
      */
     public void creerNouvellePartie(){
-        HTTPJsonGetter jsonGetter = new HTTPJsonGetter("http://www.lesageolivier.fr/motsmeles/get.php", this.mainActivity);
-        jsonGetter.execute();
-        this.grille = new Grille(this.mainActivity.getDico());
+        this.grille = new Grille(this.mainActivity.dico);
         this.canvasGrille = new CanvasGrille(this.mainActivity , this.grille ,this.mainActivity,this );
         this.frameLayout.addView(this.canvasGrille);
         this.chrono.setBase(SystemClock.elapsedRealtime());
