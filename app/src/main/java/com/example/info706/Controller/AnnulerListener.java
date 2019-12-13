@@ -4,7 +4,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.example.info706.Model.Partie;
-import com.example.info706.View.MainActivity;
 
 public class AnnulerListener implements View.OnClickListener{
 

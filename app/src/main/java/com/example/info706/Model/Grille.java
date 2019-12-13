@@ -9,10 +9,10 @@ import java.util.Random;
 
 public class Grille {
 
-    private static final int HAUTEUR_DEFAUT = 8 ;
+    private static final int HAUTEUR_DEFAUT = 9 ;
     private static final int LARGEUR_DEFAUT = 12 ;
     private static final String CARACTERE_DEFAUT = " ";
-    private static final int NOMBRE_MOTS_PARTIE = 16 ;
+    private static final int NOMBRE_MOTS_PARTIE = 8 ;
     private String[][] grilleCaracteres;
     private ArrayList<Mot> listeMots;
     private ArrayList<Mot> listeMotsFinale;
