@@ -76,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private long pause;
 
+    /**
+     * Dialogue de définition courante
+     */
     private AlertDialog dialog;
 
 
@@ -213,15 +216,20 @@ public class MainActivity extends AppCompatActivity {
      */
     public void creerDico(JSONObject jsonObject) {
         try {
-                JSONArray listMot = jsonObject.getJSONArray("listMots");
-                for (int i = 0; i < listMot.length(); i++) {
-                    this.dico.put(listMot.getJSONObject(i).getString("name"), listMot.getJSONObject(i).getString("definition"));
-                }
+            JSONArray listMot = jsonObject.getJSONArray("listMots");
+            for (int i = 0; i < listMot.length(); i++) {
+                this.dico.put(listMot.getJSONObject(i).getString("name"), listMot.getJSONObject(i).getString("definition"));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Création de la dialogue affichant la définition d'un mot dans la liste
+     * @param motTrouve
+     * le mot sélectionné
+     */
     public void afficheDefinitionMot(Mot motTrouve) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         View viewLayout = getLayoutInflater().inflate(R.layout.definition_dialog, null);
@@ -239,6 +247,10 @@ public class MainActivity extends AppCompatActivity {
         this.creerDico(jsonObject);
     }
 
+    /**
+     * Getter de la dialogue de définition courante
+     * @return
+     */
     public AlertDialog getDialog(){
         return this.dialog;
     }

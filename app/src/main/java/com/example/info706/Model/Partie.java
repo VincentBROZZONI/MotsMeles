@@ -74,12 +74,19 @@ public class Partie {
      */
     private Button annuler;
 
+    /**
+     * Bouton permettant de fermer une dialogue
+     */
     private Button continuer;
+
     /**
      * Vue de l'image du logo "Pause"
      */
     private ImageView imagePause;
 
+    /**
+     * Adapter de la listeView
+     */
     private ArrayMotAdapter motArrayAdapter;
 
     /**
@@ -110,23 +117,22 @@ public class Partie {
      * Crée la liste des mots à chercher et une dialogue de confirmation de lancement de partie
      */
     public void demarrageJeu(){
-            this.mainActivity.creerListe();
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
-            builder.setCancelable(false);
-            View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.bienvenue_dialog,null);
-            this.demarrer = viewLayout.findViewById(R.id.demarrer);
-            builder.setView(viewLayout);
-            AlertDialog dialog = builder.create();
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-            this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
+        this.mainActivity.creerListe();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
+        builder.setCancelable(false);
+        View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.bienvenue_dialog,null);
+        this.demarrer = viewLayout.findViewById(R.id.demarrer);
+        builder.setView(viewLayout);
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
     }
 
     /**
      * Méthode de création de la dialogue permettant de démarrer une nouvelle partie
      */
     public void nouvellePartie() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
         builder.setCancelable(false);
         View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.demarrer_dialog,null);
@@ -143,7 +149,6 @@ public class Partie {
             this.chrono.setVisibility(View.INVISIBLE);
             this.imagePause.setVisibility(View.VISIBLE);
             this.annuler.setOnClickListener(new AnnulerListener(this,dialog));
-
         }
         if(this.testFinPartie()){
             this.annuler.setOnClickListener(new ReviewListener(dialog));
@@ -220,5 +225,10 @@ public class Partie {
         }
     }
 
+    /**
+     * Getter de l'adapter de la listView
+     * @return
+     * un adapter
+     */
     public ArrayMotAdapter getArrayMotAdapter(){ return this.motArrayAdapter;}
 }

@@ -7,19 +7,54 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Classe de la grille de mot
+ *
+ * @author Brozzoni Vincent / Jugand Théo
+ */
 public class Grille {
 
+    /**
+     * Constante du nombre de lignes de la grille
+     */
     private static final int HAUTEUR_DEFAUT = 9 ;
+
+    /**
+     * Constante du nombre de colonnes de la grille
+     */
     private static final int LARGEUR_DEFAUT = 12 ;
+
+    /**
+     * Constante du caractère par défaut lors de l'initialistion de la grille
+     */
     private static final String CARACTERE_DEFAUT = " ";
+
+    /**
+     * Constante du nombre de mots à trouver dans la grille
+     */
     private static final int NOMBRE_MOTS_PARTIE = 16 ;
+
+    /**
+     * La matrice contenant les caractères de la grille
+     */
     private String[][] grilleCaracteres;
+
+    /**
+     * La liste de tous les mots d'un thème
+     */
     private ArrayList<Mot> listeMots;
+
+    /**
+     * La liste des mots placés dans la grille à chercher
+     */
     private ArrayList<Mot> listeMotsFinale;
 
-
+    /**
+     * Constructeur de la grille
+     * @param dico
+     * le dictionnaire contenant les mots associés à leur définition
+     */
     public Grille(Map<String,String> dico){
-
         this.listeMots = new ArrayList<>();
         Iterator it = dico.keySet().iterator();
         while(it.hasNext()) {
@@ -27,12 +62,13 @@ public class Grille {
             Mot temp = new Mot(cle.toString(), cle.toString().length(), Direction.randomDirection(), Sens.randomSens(), dico.get(cle) , false, Color.WHITE);
             this.listeMots.add(temp);
         }
-
         this.inititialiseGrille();
         this.genererGrille();
     }
 
-
+    /**
+     * Méthode initialisant la matrice de caractères avec le caractère par défaut
+     */
     public void inititialiseGrille (){
         this.grilleCaracteres = new String[LARGEUR_DEFAUT][HAUTEUR_DEFAUT];
         int i,j;
@@ -43,6 +79,9 @@ public class Grille {
         }
     }
 
+    /**
+     * Méthode générant la grille et la liste de mots à trouver
+     */
     public void genererGrille(){
         this.listeMotsFinale = new ArrayList<>();
         int i = 0;
@@ -85,6 +124,11 @@ public class Grille {
     //*********************************************************************************************
     //Methodes tentant de placer les mots dans la grille
 
+    /**
+     * Méthode de tentative de placement d'un mot horizontalement
+     * @param motAPlacer
+     * le mot à placer
+     */
     private void tentativePlacerMotHorizontal(Mot motAPlacer) {
         int colonneDebutMot,ligneMot,timeOut;
 
@@ -109,6 +153,11 @@ public class Grille {
         }
     }
 
+    /**
+     * Méthode de tentative de placement d'un mot verticalement
+     * @param motAPlacer
+     * le mot à placer
+     */
     private void tentativePlacerMotVertical(Mot motAPlacer) {
 
         int ligneDebutMot, colonneMot, timeOut;
@@ -134,7 +183,11 @@ public class Grille {
         }
     }
 
-
+    /**
+     * Méthode de tentative de placement d'un mot en diagonale d'en haut à droite jusqu'en bas à gauche
+     * @param motAPlacer
+     * le mot à placer
+     */
     private void tentativePlacerMotDiagonalBas(Mot motAPlacer) {
         int ligneDebutMot,colonneDebutMot,timeOut;
 
@@ -159,7 +212,11 @@ public class Grille {
         }
     }
 
-
+    /**
+     * Méthode de tentative de placement d'un mot en diagonale d'en bas à droite jusqu'en haut à gauche
+     * @param motAPlacer
+     * le mot à placer
+     */
     private void tentativePlacerMotDiagonalHaut(Mot motAPlacer) {
         int ligneDebutMot,colonneDebutMot,timeOut;
 
@@ -189,6 +246,17 @@ public class Grille {
     //************************************************************************
     //Methodes testant la validite de la position des mots que l'on veut placer
 
+    /**
+     * Méthode vérifiant si la position où l'on veut placer horizontalement le mot est valide
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneDebutMot
+     * la colonne où commence le mot
+     * @param ligneMot
+     * la ligne où on tente de placer le mot
+     * @return
+     * un booleen indiquant si la position est valide
+     */
     private boolean positionValideHorizontal(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
         boolean placeLibre = true;
         int i = 0;
@@ -204,6 +272,17 @@ public class Grille {
         return placeLibre;
     }
 
+    /**
+     * Méthode vérifiant si la position où l'on veut placer verticalement le mot est valide
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneMot
+     * la colonne où on tente de placer le mot
+     * @param ligneDebutMot
+     * la ligne où commence le mot
+     * @return
+     * un booleen indiquant si la position est valide
+     */
     private boolean positionValideVertical(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
         boolean placeLibre = true;
         int i = 0;
@@ -220,6 +299,17 @@ public class Grille {
         return placeLibre;
     }
 
+    /**
+     * Méthode vérifiant si la position où l'on veut placer diagonalement vers le bas le mot est valide
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneDebutMot
+     * la colonne où commence le mot
+     * @param ligneDebutMot
+     * la ligne où commence le mot
+     * @return
+     * un booleen indiquant si la position est valide
+     */
     private boolean positionValideDiagonalBas(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
         boolean placeLibre = true;
         int i = 0;
@@ -237,6 +327,17 @@ public class Grille {
         return placeLibre;
     }
 
+    /**
+     * Méthode vérifiant si la position où l'on veut placer diagonalement vers le haut le mot est valide
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneDebutMot
+     * la colonne où commence le mot
+     * @param ligneDebutMot
+     * la ligne où commence le mot
+     * @return
+     * un booleen indiquant si la position est valide
+     */
     private boolean positionValideDiagonalHaut(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
         boolean placeLibre = true;
         int i = 0;
@@ -258,7 +359,15 @@ public class Grille {
     //*************************************************************************************
     //Methodes de placement des mots dans la grille
 
-
+    /**
+     * Méthode de placement horizontal des caractères du mot dans la matrice de caractères de la grille
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneDebutMot
+     * la colonne où commence le mot
+     * @param ligneMot
+     * la ligne où sera placé le mot
+     */
     private void placerMotHorizontal(Mot motAPlacer, int colonneDebutMot, int ligneMot) {
         int x = colonneDebutMot;
         for (int i = 0 ; i < motAPlacer.getLongueurMot() ; i++){
@@ -269,6 +378,15 @@ public class Grille {
         }
     }
 
+    /**
+     * Méthode de placement vertical des caractères du mot dans la matrice de caractères de la grille
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneMot
+     * la colonne où sera placé le mot
+     * @param ligneDebutMot
+     * la ligne où commence le mot
+     */
     private void placerMotVertical(Mot motAPlacer, int colonneMot, int ligneDebutMot) {
         int y = ligneDebutMot;
         for (int i = 0 ; i < motAPlacer.getLongueurMot() ; i++){
@@ -278,7 +396,15 @@ public class Grille {
         }
     }
 
-
+    /**
+     * Méthode de placement diagonal vers le bas des caractères du mot dans la matrice de caractères de la grille
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneDebutMot
+     * la colonne où commence le mot
+     * @param ligneDebutMot
+     * la ligne où commence le mot
+     */
     private void placerMotDiagonalBas(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
         int x = colonneDebutMot;
         int y = ligneDebutMot;
@@ -290,6 +416,15 @@ public class Grille {
         }
     }
 
+    /**
+     * Méthode de placement diagonal vers le haut des caractères du mot dans la matrice de caractères de la grille
+     * @param motAPlacer
+     * le mot à placer
+     * @param colonneDebutMot
+     * la colonne où commence le mot
+     * @param ligneDebutMot
+     * la ligne où commence le mot
+     */
     private void placerMotDiagonalHaut(Mot motAPlacer, int colonneDebutMot, int ligneDebutMot) {
         int x = colonneDebutMot;
         int y = ligneDebutMot;
@@ -301,10 +436,9 @@ public class Grille {
         }
     }
 
-    //***************************************************************************************
-    //***************************************************************************************
-    //Methode permattant de remplir les cases restantes de la grille
-
+    /**
+     * Méthode de placement de caractères aléatoires dans les cases vides de la matrice de caractères
+     */
     public void remplirCasesRestantes(){
         for(int i = 0 ; i < LARGEUR_DEFAUT ; i++){
             for(int j = 0 ; j< HAUTEUR_DEFAUT ; j++){
@@ -316,30 +450,61 @@ public class Grille {
         }
     }
 
-
+    /**
+     * Méthode inversant les caractères d'un mot
+     * @param mot
+     * le mot que l'on inverse
+     */
     public void inverseMot(Mot mot){
         StringBuilder inverse = new StringBuilder();
         inverse.append(mot.getChaineMot());
         inverse.reverse();
         mot.setChaineMot(inverse.toString());
-
     }
+
+    /**
+     * Getter du nombre de lignes de la grille
+     * @return
+     * un entier
+     */
     public static int getHauteurDefaut() {
         return HAUTEUR_DEFAUT;
     }
 
+    /**
+     * Getter du nombre de colonnes de la grille
+     * @return
+     * un entier
+     */
     public static int getLargeurDefaut() {
         return LARGEUR_DEFAUT;
     }
 
+    /**
+     * Getter de la matrice de caractères de la grille
+     * @return
+     * un tableau de caractères à deux dimensions
+     */
     public String[][] getGrilleCaracteres() {
         return grilleCaracteres;
     }
 
+    /**
+     * Getter de la liste de mots à trouver
+     * @return
+     * une liste de Mot
+     */
     public ArrayList<Mot> getListeMotsFinale() {
         return listeMotsFinale;
     }
 
+    /**
+     * Getter d'un mot dans la liste de mots à trouver correspondant à une chaine de caractères
+     * @param mot
+     * la chaine de caractères correspondant au mot à trouver
+     * @return
+     * un mot
+     */
     public Mot getMotByString(String mot){
         Mot motRecupere = new Mot();
         Iterator<Mot> iterator = this.listeMotsFinale.iterator();
@@ -351,5 +516,4 @@ public class Grille {
         }
         return motRecupere;
     }
-
 }
