@@ -1,8 +1,11 @@
 package com.example.info706.Controller;
 
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
 
+import com.example.info706.R;
 import com.example.info706.View.MainActivity;
 
 import org.json.JSONException;
@@ -61,6 +64,16 @@ public class HTTPRequeteJSON extends AsyncTask<String, String, JSONObject> {
     @Override
     protected void onPostExecute(JSONObject jsonObject) {
         super.onPostExecute(jsonObject);
-        this.mainActivity.onResponse(jsonObject);
+        if(jsonObject != null) {
+            this.mainActivity.onResponse(jsonObject);
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
+            View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.internet_dialog, null);
+            builder.setCancelable(false);
+            builder.setView(viewLayout);
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
     }
 }

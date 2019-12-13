@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertDialog dialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,10 +213,10 @@ public class MainActivity extends AppCompatActivity {
      */
     public void creerDico(JSONObject jsonObject) {
         try {
-            JSONArray listMot = jsonObject.getJSONArray("listMots");
-            for (int i = 0; i < listMot.length(); i++) {
-                this.dico.put(listMot.getJSONObject(i).getString("name"), listMot.getJSONObject(i).getString("definition"));
-            }
+                JSONArray listMot = jsonObject.getJSONArray("listMots");
+                for (int i = 0; i < listMot.length(); i++) {
+                    this.dico.put(listMot.getJSONObject(i).getString("name"), listMot.getJSONObject(i).getString("definition"));
+                }
         } catch (JSONException e) {
             e.printStackTrace();
         }

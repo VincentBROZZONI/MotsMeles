@@ -27,4 +27,5 @@
                             Université Savoie Mont-Blanc
     </string>
     <string name="ok">Ok</string>
+    <string name="internet_message">Cette application nécessite une connexion internet pour fonctionner.\n\n Connectez-vous à un réseau puis relancez l\'application.</string>
 </resources>

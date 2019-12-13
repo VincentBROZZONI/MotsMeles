@@ -2,6 +2,7 @@ package com.example.info706.Model;
 
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -109,16 +110,16 @@ public class Partie {
      * Crée la liste des mots à chercher et une dialogue de confirmation de lancement de partie
      */
     public void demarrageJeu(){
-        this.mainActivity.creerListe();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
-        builder.setCancelable(false);
-        View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.bienvenue_dialog,null);
-        this.demarrer = viewLayout.findViewById(R.id.demarrer);
-        builder.setView(viewLayout);
-        AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
+            this.mainActivity.creerListe();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.mainActivity);
+            builder.setCancelable(false);
+            View viewLayout = this.mainActivity.getLayoutInflater().inflate(R.layout.bienvenue_dialog,null);
+            this.demarrer = viewLayout.findViewById(R.id.demarrer);
+            builder.setView(viewLayout);
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            this.demarrer.setOnClickListener(new DemarrerListener(this,dialog));
     }
 
     /**
