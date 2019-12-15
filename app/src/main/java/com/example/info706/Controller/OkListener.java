@@ -6,14 +6,18 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 
-public class okListener implements View.OnClickListener {
+/**
+ * Classe permettant de fermer une dialog et de relancer le chronomètre
+ * @author Brozzoni Vincent / Jugand Théo
+ */
+public class OkListener implements View.OnClickListener {
 
     private AlertDialog dialog;
     private Chronometer chrono;
     private long pause;
     private ImageView imagePause;
 
-    public okListener(Chronometer chrono, AlertDialog dialog,long pause , ImageView imagePause ) {
+    public OkListener(Chronometer chrono, AlertDialog dialog, long pause , ImageView imagePause ) {
         this.dialog = dialog;
         this.chrono = chrono;
         this.pause = pause;

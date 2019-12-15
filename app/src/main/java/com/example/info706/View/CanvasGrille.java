@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -48,20 +47,46 @@ public class CanvasGrille extends View {
      * Instance de la classe Paint permettant de dessiner les traits dans la grille
      */
     private Paint paintTrait;
+    /**
+     * Instance de la classe Grille permettant de créer la grille de lettres
+     */
     private Grille grille;
-    private Path path;
+    /**
+     * Position du point de départ et du point de fin dans la grille de lettres
+     */
     private int xPosDepart, yPosDepart, xPosFin, yPosFin;
+    /**
+     * Cordonnées du point de départ et du point de fin
+     */
     private float xPosDepartFloat, yPosDepartFloat, xPosFinFloat, yPosFinFloat;
+    /**
+     *Mot recupéré par l'utilisateur
+     */
     private String motRecupere;
+    /**
+     * Liste de trait pour chaque mot trouvé
+     */
     private ArrayList<Trait> listTrait;
+    /**
+     * Instance de la classe MainActivity
+     */
     private MainActivity mainActivity;
+    /**
+     * Instance de la classe partie
+     */
     private Partie partie;
 
+    /**
+     * Constructeur de la classe CanvasGrille
+     * @param context Context de la classe CanvasGrille
+     * @param grille Instance de la classe Grille
+     * @param mainActivity Instance de la classe MainActivity
+     * @param partie Instance de la classe Partie
+     */
     public CanvasGrille(Context context, Grille grille,MainActivity mainActivity, Partie partie) {
         super(context);
         this.paintLettre = new Paint();
         this.paintTrait = new Paint();
-        this.path = new Path();
         this.listTrait = new ArrayList<>();
         this.grille = grille;
         this.paintTrait.setAntiAlias(true);
@@ -69,6 +94,10 @@ public class CanvasGrille extends View {
         this.partie = partie;
     }
 
+    /**
+     * Méthode permettant de dessiner les lettres et les traits de couleurs dans le canvas
+     * @param canvas Instance de la classe canvas
+     */
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -91,13 +120,18 @@ public class CanvasGrille extends View {
         this.dessinerMotsRayes(this.listTrait, this.paintTrait, canvas);
     }
 
+    /**
+     * Méthode permettant à l'utilisateur d'interagir avec le canvas
+     * @param event Recupération de l'évenement lorsque l'utilisateur interagit avec le canvas
+     * @return Action de l'utilisateur sur le canvas
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float xPos = event.getX();
         float yPos = event.getY();
 
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_DOWN: //Action de poser le doigt sur le canvas
                 this.motRecupere = "";
                 if (coordDansLaGrille(xPos, yPos)) {
                     this.xPosDepart = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
@@ -106,9 +140,9 @@ public class CanvasGrille extends View {
                     this.yPosDepartFloat = ((this.yPosDepart + 1) * CanvasGrille.DECALAGE_Y) - 60;
                 }
                 return true;
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE: //Action de maintenir le doigt tout en se déplacant sur le canvas
                 break;
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_UP: //Action de lever le doigt du canvas
                 if (coordDansLaGrille(xPos, yPos)) {
                     this.xPosFin = ((int) (xPos - CanvasGrille.DECALAGE_DEPART_X) / CanvasGrille.DECALAGE_X);
                     this.yPosFin = ((int) yPos / CanvasGrille.DECALAGE_Y);
@@ -136,6 +170,12 @@ public class CanvasGrille extends View {
         return true;
     }
 
+    /**
+     * Méthode permettant de rayer tous les mots trouvés par l"utilisateur
+     * @param listTrait Liste des mots rayés
+     * @param paint Instance de la classe Paint
+     * @param canvas Instance de la classe Canvas
+     */
     public void dessinerMotsRayes(ArrayList<Trait> listTrait, Paint paint, Canvas canvas) {
         Iterator<Trait> iteratorTrait = listTrait.iterator();
         while (iteratorTrait.hasNext()) {
@@ -149,10 +189,21 @@ public class CanvasGrille extends View {
         }
     }
 
+    /**
+     * Méthode permettant de savoir si l'utilisateur interagit bien avec la grille
+     * @param xPos Abscisse de la coordonnées récupérée
+     * @param yPos Ordonnée de la coordonnées récupérée
+     * @return
+     */
     public boolean coordDansLaGrille(float xPos, float yPos) {
         return xPos >= CanvasGrille.DECALAGE_DEPART_X && yPos >= 0 && xPos <= (CanvasGrille.DECALAGE_X * Grille.getLargeurDefaut()) + CanvasGrille.DECALAGE_DEPART_X && yPos <= (CanvasGrille.DECALAGE_Y * Grille.getHauteurDefaut());
     }
 
+    /**
+     * Méthode permettant de savoir si le mot récupéré est dans la liste de mot
+     * @param mot Mot récupéré
+     * @return
+     */
     public boolean motValide(String mot) {
         boolean resultat = false;
         Iterator<Mot> iterator = this.grille.getListeMotsFinale().iterator();
@@ -167,6 +218,11 @@ public class CanvasGrille extends View {
         return resultat;
     }
 
+    /**
+     * Méthode permettant de récupérer l'index du mot récupéré dans la grille
+     * @param mot Mot récupéré
+     * @return
+     */
     public int indexMotDansLaGrille(String mot) {
         int resultat = 0;
         int index = 0;
@@ -181,6 +237,14 @@ public class CanvasGrille extends View {
         return resultat;
     }
 
+    /**
+     * Méthode permettant de récupérer un mot en fonction de l'action de l'utilisateur et de la direction du mot dans la grille
+     * @param xPosDepart Abscisse de la coordonnée de départ lorsque l'utilisateur pose le doigt sur l"écran
+     * @param yPosDepart Ordonnée de la coordonnée de départ lorsque l'utilisateur pose le doigt sur l"écran
+     * @param xPosFin Abscisse de la coordonnée de fin lorsque l'utilisateur lève le doigt de l"écran
+     * @param yPosFin Ordonnée de la coordonnée de fin lorsque l'utilisateur lève le doigt de l"écran
+     * @return Mot récupéré
+     */
     public String recupererMot(int xPosDepart, int yPosDepart, int xPosFin, int yPosFin) {
         String resultat = "";
         if (xPosDepart == xPosFin && yPosDepart <= yPosFin) {
@@ -240,6 +304,10 @@ public class CanvasGrille extends View {
         return resultat;
     }
 
+    /**
+     * Méthode permettant de générer une couleur aléatoire
+     * @return Couleur aléatoire
+     */
     public int randomColor() {
         Random random = new Random();
         int color = Color.argb(255, random.nextInt(80) + 120, random.nextInt(80) + 120, random.nextInt(80) + 120);

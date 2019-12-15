@@ -108,7 +108,7 @@ public class Partie {
         this.frameLayout=frameLayout;
         this.chrono=chrono;
         this.imagePause = imagePause;
-        HTTPRequeteJSON requeteJSON = new HTTPRequeteJSON("http://www.lesageolivier.fr/motsmeles/get.php", this.mainActivity);
+        HTTPRequeteJSON requeteJSON = new HTTPRequeteJSON("http://www.lesageolivier.fr/motsmeles/get.php", this.mainActivity);//Envoi de la requête au serveur afin de récupérer le fichier JSON
         requeteJSON.execute();
     }
 

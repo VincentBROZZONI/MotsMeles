@@ -5,6 +5,10 @@ import android.view.View;
 
 import com.example.info706.Model.Partie;
 
+/**
+ *Classe permettant de gérer le démarrage d'une partie
+ *@author Brozzoni Vincent / Jugand Théo
+ */
 public class DemarrerListener implements View.OnClickListener {
 
     private Partie partie;

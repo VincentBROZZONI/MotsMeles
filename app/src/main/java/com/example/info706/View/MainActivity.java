@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.info706.Controller.ReviewListener;
-import com.example.info706.Controller.okListener;
+import com.example.info706.Controller.OkListener;
 import com.example.info706.Model.Mot;
 import com.example.info706.Model.Partie;
 import com.example.info706.R;
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             this.chrono.stop();
             this.chrono.setVisibility(View.INVISIBLE);
             this.imagePause.setVisibility(View.VISIBLE);
-            this.ok.setOnClickListener(new okListener(this.chrono, dialog, this.pause, this.imagePause));
+            this.ok.setOnClickListener(new OkListener(this.chrono, dialog, this.pause, this.imagePause));
         }
         if(this.partie.testFinPartie()){
             this.ok.setOnClickListener((new ReviewListener(dialog)));
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             this.chrono.stop();
             this.chrono.setVisibility(View.INVISIBLE);
             this.imagePause.setVisibility(View.VISIBLE);
-            this.ok.setOnClickListener(new okListener(this.chrono, dialog, this.pause, this.imagePause));
+            this.ok.setOnClickListener(new OkListener(this.chrono, dialog, this.pause, this.imagePause));
         }
         if(this.partie.testFinPartie()){
             this.ok.setOnClickListener((new ReviewListener(dialog)));
@@ -243,6 +243,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Méthode permettant de créer un dico en fonction des données d'un fichier JSON
+     * @param jsonObject Fichier JSON
+     */
     public void onResponse(JSONObject jsonObject) {
         this.creerDico(jsonObject);
     }

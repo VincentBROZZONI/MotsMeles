@@ -12,8 +12,17 @@ import com.example.info706.R;
 
 import java.util.ArrayList;
 
+/**
+ * Classe permettant de générer la listView en fonction de la liste de mots
+ * @author Brozzoni Vincent / Jugand Théo
+ */
 public class ArrayMotAdapter extends ArrayAdapter<Mot> {
 
+    /**
+     * Constructeur de classe ArrayMotAdapter
+     * @param context Context de la classe
+     * @param listeMots Liste de mots
+     */
     public ArrayMotAdapter(Context context, ArrayList<Mot> listeMots){
         super (context,0,listeMots );
     }

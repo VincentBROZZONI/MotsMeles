@@ -184,7 +184,7 @@ public class Grille {
     }
 
     /**
-     * Méthode de tentative de placement d'un mot en diagonale d'en haut à droite jusqu'en bas à gauche
+     * Méthode de tentative de placement d'un mot en diagonale d'en haut à gauche jusqu'en bas à droite
      * @param motAPlacer
      * le mot à placer
      */
@@ -213,7 +213,7 @@ public class Grille {
     }
 
     /**
-     * Méthode de tentative de placement d'un mot en diagonale d'en bas à droite jusqu'en haut à gauche
+     * Méthode de tentative de placement d'un mot en diagonale d'en bas à gauche jusqu'en haut à droite
      * @param motAPlacer
      * le mot à placer
      */

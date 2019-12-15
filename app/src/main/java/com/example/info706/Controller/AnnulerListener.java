@@ -5,6 +5,10 @@ import android.view.View;
 
 import com.example.info706.Model.Partie;
 
+/**
+ * Classe permettant de relancer le chronomètre ainsi que la partie
+ * @author Brozzoni Vincent / Jugand Théo
+ */
 public class AnnulerListener implements View.OnClickListener{
 
         private Partie partie;

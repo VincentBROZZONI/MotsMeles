@@ -18,10 +18,25 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Classe permettant de gérer la connexion au serveur avec une AsyncTask
+ * @author Brozzoni Vincent / Jugand Théo
+ */
 public class HTTPRequeteJSON extends AsyncTask<String, String, JSONObject> {
+    /**
+     * Instance de classe MainActivity
+     */
     private MainActivity mainActivity;
+    /**
+     * Url du serveur
+     */
     private String url;
 
+    /**
+     * Constructeur de la classe HTTPRequeteJSON
+     * @param url Url du serveur
+     * @param mainActivity Instance de la classe MainActivity
+     */
     public HTTPRequeteJSON(String url, MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         this.url = url;
@@ -32,6 +47,11 @@ public class HTTPRequeteJSON extends AsyncTask<String, String, JSONObject> {
         super.onPreExecute();
     }
 
+    /**
+     * Méthode permettant de récupérer un JSONObject à partir des données sur le serveur
+     * @param strings
+     * @return
+     */
     @Override
     protected JSONObject doInBackground(String... strings) {
         try {
@@ -61,6 +81,10 @@ public class HTTPRequeteJSON extends AsyncTask<String, String, JSONObject> {
         return null;
     }
 
+    /**
+     * Méthode permettant de récupérer un JSONObject dans la classe MainActivity et de prévenir l'utilisateur si le périphérique n'est pas connecté à internet
+     * @param jsonObject
+     */
     @Override
     protected void onPostExecute(JSONObject jsonObject) {
         super.onPostExecute(jsonObject);
